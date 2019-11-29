@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        app:cardUseCompatPadding="true"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="@dimen/cardview_radius"
+        android:layout_height="wrap_content">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10">
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:paddingVertical="@dimen/margin_16dp"
+        android:src="@drawable/dash_washmachine"/>
+
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="7"
+    android:layout_marginLeft="@dimen/margin_16dp"
+    android:orientation="vertical">
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Washing machine Repair"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:typeface="sans"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="@dimen/margin_24dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/date_icon"
+            android:gravity="center"
+            android:drawablePadding="@dimen/margin_8dp"
+            android:textColor="@color/black"
+            android:text="13/02/2019"/>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/clock_icon"
+            android:gravity="center"
+            android:layout_gravity="end"
+            android:textColor="@color/black"
+            android:drawablePadding="@dimen/margin_8dp"
+            android:layout_marginLeft="@dimen/margin_24dp"
+            android:text="03:25 PM"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+</LinearLayout>
+
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/right_chevron"/>
+
+
+
+
+
+
+
+</LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/green"
+            android:text="Processed"
+            android:gravity="center"
+            android:textColor="@color/white"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /**
+  ~  * Developed by Saravana  on 8/13/19 3:07 PM
+  ~  * Copyright (c) 2019 . All rights reserved.
+  ~  * Company Istrides Technology
+  ~  * Last modified 8/13/19 3:07 PM
+  ~  **/
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:shape="rectangle">
+    <gradient
+        android:angle="45"
+        android:endColor="@color/themeColor2"
+        android:startColor="@color/themeColor1" />
+    <corners android:radius="25dp" />
+</shape>

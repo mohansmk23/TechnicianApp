@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/cardview_radius"
+
+            app:cardUseCompatPadding="true">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="10"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AC repair service"
+                                android:textColor="@color/black"
+                                android:typeface="sans"/>
+
+
+                            <TextView
+                                android:layout_marginLeft="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Completed"
+                                android:paddingHorizontal="@dimen/margin_8dp"
+                                android:gravity="center"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:drawablePadding="4dp"
+                                android:textSize="@dimen/text_size_micro"
+                                android:drawableLeft="@drawable/icon_micro_tick"
+                                android:textColor="@color/green"
+                                android:background="@drawable/edittext_border"
+                                android:backgroundTint="@color/lightgreen"/>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_16dp">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Scheduled Date :"
+                                android:textSize="@dimen/text_size_micro"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="center"
+                                android:background="@drawable/edittext_border"
+                                android:drawablePadding="4dp"
+                                android:textColor="@color/black"
+                                android:text="13/02/2019"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_16dp">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Customer :"
+                                android:textSize="@dimen/text_size_micro"/>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:gravity="center"
+                                android:background="@drawable/edittext_border"
+                                android:drawablePadding="4dp"
+                                android:textColor="@color/black"
+                                android:text="Mr. Saravana kumar"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/dash_ac"
+                        android:layout_weight="3"/>
+
+
+                </LinearLayout>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@android:color/darker_gray"/>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingVertical="4dp"
+                        android:text="550 RS/-"
+                        android:textColor="@color/darkgrey"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="4dp"
+                        android:drawableLeft="@drawable/ic_rupee_small"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Royapettah"
+                            android:drawableLeft="@drawable/icon_location"
+                            android:drawablePadding="4dp"
+                            android:drawableTint="@color/themeColor2"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>

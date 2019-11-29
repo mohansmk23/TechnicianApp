@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_gradient_vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/pe_logo_withshadow" />
+
+        <TextView
+            android:id="@+id/senttext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcometxt"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:layout_below="@id/papergif"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trusted Home services"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:layout_below="@id/papergif"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quality | Affordable | Trust"
+            android:textSize="@dimen/text_size_small"
+            android:layout_below="@id/papergif"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:textColor="@color/grey"/>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/editlay"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="4dp"
+        android:background="@drawable/edittext_border"
+        android:layout_marginTop="@dimen/margin_50dp">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_phone"
+            android:tint="@color/Themecolor2"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
+
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:gravity="left|center"
+            android:inputType="phone"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:background="@android:color/transparent"
+            android:hint="Mobile number"
+            android:textSize="@dimen/text_size_small"/>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/loginbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login/Signup"
+        android:textColor="@color/white"
+        android:background="@color/Themecolor2"
+        android:layout_below="@+id/editlay"
+        android:layout_centerHorizontal="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingHorizontal="@dimen/margin_16dp"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/margin_42dp"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:src="@drawable/bottom_overlay"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true" />
+
+
+
+
+
+
+</RelativeLayout>

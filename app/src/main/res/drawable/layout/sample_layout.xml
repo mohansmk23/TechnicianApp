@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Login">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:background="@drawable/login_onecorner_bg"
+            android:clipToPadding="false"
+            android:elevation="55dp">
+
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:src="@drawable/pe_logo_white" />
+
+            <TextView
+                android:id="@+id/welcometxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/logo"
+                android:text="@string/welcometxt"
+                android:layout_marginBottom="@dimen/margin_18dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_xxlarge"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/logintxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/logintxt"
+                android:layout_marginBottom="@dimen/margin_10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:clipToPadding="false"
+            android:elevation="55dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enterno"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="@dimen/margin_18dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phneditlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="120dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="10">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phnedit"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edittext_border"
+                    android:drawableLeft="@drawable/ic_phone"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:padding="5dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:id="@+id/fab"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phneditlay"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:background="@color/Themecolor1"
+                android:clickable="true"
+                android:src="@drawable/ic_right_arrow"
+                app:rippleColor="#ffffff" />
+
+
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

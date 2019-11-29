@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Developed by Saravana  on 8/14/19 12:40 PM
+  ~  * Copyright (c) 2019 . All rights reserved.
+  ~  * Company Istrides Technology
+  ~  * Last modified 8/14/19 12:40 PM
+  ~  **/
+  -->
+
+<full-backup-content>
+    <!-- Exclude specific shared preferences that contain GCM registration Id -->
+</full-backup-content>

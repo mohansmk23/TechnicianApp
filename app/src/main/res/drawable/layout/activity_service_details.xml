@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e0e0e0"
+    android:orientation="vertical"
+    tools:context=".Activities.ServiceDetails">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/app_gradient"
+        android:paddingVertical="@dimen/margin_16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:text="Washing machine Service"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_24dp"
+            android:paddingHorizontal="@dimen/margin_16dp">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:cardCornerRadius="@dimen/cardview_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select Brand"
+                    android:background="@color/Themecolor2"
+                    android:paddingLeft="@dimen/margin_16dp"
+                    android:layout_gravity="top"
+                    android:textColor="@color/white" />
+
+            <Spinner
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50dp"
+                android:entries="@array/Brands"/>
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:cardCornerRadius="@dimen/cardview_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select service type"
+                    android:background="@color/Themecolor2"
+                    android:paddingLeft="@dimen/margin_16dp"
+                    android:layout_gravity="top"
+                    android:textColor="@color/white" />
+
+
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_24dp">
+
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Repair" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Service" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Installation/uninstallation" />
+
+
+                </RadioGroup>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_8dp"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="4dp"
+                    app:cardCornerRadius="@dimen/cardview_radius">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Date"
+                        android:background="@color/Themecolor2"
+                        android:paddingLeft="@dimen/margin_16dp"
+                        android:layout_gravity="top"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:layout_marginLeft="4dp"
+                        android:drawableLeft="@drawable/date_icon"
+                        android:drawablePadding="@dimen/margin_8dp"
+                        android:paddingVertical="@dimen/margin_16dp"
+                        android:text="13/02/2019"
+                        android:textColor="@color/black" />
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_8dp"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="4dp"
+                    app:cardCornerRadius="@dimen/cardview_radius">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:background="@color/Themecolor2"
+                        android:paddingLeft="@dimen/margin_16dp"
+                        android:layout_gravity="top"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginLeft="4dp"
+                        android:drawableLeft="@drawable/clock_icon"
+                        android:drawablePadding="@dimen/margin_8dp"
+                        android:layout_marginTop="@dimen/margin_16dp"
+                        android:gravity="center"
+                        android:paddingVertical="@dimen/margin_16dp"
+                        android:text="03:25 PM"
+                        android:textColor="@color/black" />
+
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="@dimen/cardview_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:background="@color/Themecolor2"
+                    android:paddingLeft="@dimen/margin_16dp"
+                    android:layout_gravity="top"
+                    android:textColor="@color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_16dp"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:layout_marginRight="@dimen/margin_16dp"
+                    android:paddingBottom="4dp"
+                    android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/adress"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No.4,mettu street, ernavoor, chennai-600057"
+                        android:layout_marginTop="@dimen/margin_8dp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                            android:text="CHANGE ADDRESS"
+                        android:layout_gravity="right"
+                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/margin_8dp"
+                        android:textColor="@color/green"/>
+
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                app:cardCornerRadius="@dimen/cardview_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Other details"
+                    android:background="@color/Themecolor2"
+                    android:paddingLeft="@dimen/margin_16dp"
+                    android:layout_gravity="top"
+                    android:textColor="@color/white" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginHorizontal="@dimen/margin_24dp"
+                    android:hint="Other details" />
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:background="@color/green"
+        android:paddingVertical="@dimen/margin_16dp"
+        android:text="Make Booking"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

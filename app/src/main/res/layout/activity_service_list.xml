@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /**
+  ~  * Developed by Saravana  on 7/15/19 7:35 PM
+  ~  * Copyright (c) 2019 . All rights reserved.
+  ~  * Company Istrides Technology
+  ~  * Last modified 7/11/19 11:18 AM
+  ~  */
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultColor"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        fontPath="fonts/ArchitectsDaughter.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:minHeight="?attr/actionBarSize"
+        android:overScrollMode="always"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="visible"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/black" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+</LinearLayout>

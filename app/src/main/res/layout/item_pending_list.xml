@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        app:cardUseCompatPadding="true"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="@dimen/cardview_radius"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10">
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingVertical="@dimen/margin_16dp"
+                android:src="@drawable/dash_tv"/>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:layout_marginLeft="@dimen/margin_16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Washing machine Repair"
+                        android:textColor="@color/black"
+                        android:typeface="sans"/>
+
+
+                    <TextView
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paused"
+                        android:paddingHorizontal="@dimen/margin_8dp"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="#ff7043"
+                        android:textSize="@dimen/text_size_micro"
+                        android:drawableLeft="@drawable/icon_pause_micro"
+                        android:textColor="#ff7043"
+                        android:background="@drawable/edittext_border"
+                        android:backgroundTint="#ff8a65"/>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    android:layout_gravity="bottom">
+
+
+
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/date_icon_small"
+                            android:drawableTint="@color/medium_grey"
+                            android:gravity="center"
+                            android:drawablePadding="4dp"
+                            android:textColor="@color/black"
+                            android:text="13/02/2019"/>
+
+
+
+
+
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/clock_icon_small"
+                            android:gravity="center"
+                            android:layout_gravity="end"
+                            android:drawableTint="@color/medium_grey"
+                            android:textColor="@color/black"
+                            android:drawablePadding="4dp"
+                            android:layout_marginLeft="@dimen/margin_16dp"
+                            android:text="03:25 PM"/>
+
+
+
+
+
+
+
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin_16dp">
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customer name :"
+                    android:textSize="@dimen/text_size_micro"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center"
+                    android:background="@drawable/edittext_border"
+                    android:drawablePadding="4dp"
+                    android:textColor="@color/black"
+                    android:text="Mr. Saravana kumar"/>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Royapettah"
+                    android:drawableLeft="@drawable/icon_location"
+                    android:drawablePadding="4dp"
+                    android:drawableTint="@color/themeColor2"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/margin_16dp"
+                    />
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/right_chevron"/>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>

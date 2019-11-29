@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context=".Fragments.Profile">
+
+
+
+
+
+    <!-- TODO: Update blank fragment layout -->
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginTop="@dimen/margin_16dp"
+       android:orientation="vertical">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Saravana"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/ic_user"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="9876543210"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_phone"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="xxxxx.xxx@gmail.com"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_mail"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Share Pooja electronics"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_share"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="About Pooja electronics"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_about"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Contsct us"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_contact"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingVertical="@dimen/margin_16dp"
+               android:layout_marginHorizontal="@dimen/margin_16dp"
+               android:clickable="true"
+               android:focusable="true"
+               android:background="?attr/selectableItemBackground"
+               android:orientation="horizontal">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Logout"
+                   android:layout_alignParentStart="true"
+                   android:textColor="@color/black"
+                   android:layout_marginStart="@dimen/margin_16dp"
+                   android:gravity="center"
+                   android:textSize="@dimen/text_size_small"/>
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="right"
+                   android:src="@drawable/icon_logout"
+                   android:layout_alignParentRight="true"/>
+
+
+
+           </RelativeLayout>
+
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:layout_marginVertical="8dp"
+               android:background="@android:color/darker_gray"/>
+
+
+
+
+
+
+
+
+
+
+
+   </LinearLayout>
+
+
+</LinearLayout>
+</LinearLayout>

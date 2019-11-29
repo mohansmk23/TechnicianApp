@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_gradient_vertical"
+    android:orientation="vertical"
+    android:weightSum="5"
+    tools:context=".login.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/margin_42dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/pe_logo_withshadow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:text="Technician login"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:text="Quality | Affordable | Trust"
+            android:textColor="@color/light_grey"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:clipToPadding="false"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/margin_24dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="LOGIN"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_8dp">
+
+                    <EditText
+                        android:id="@+id/usernameedt"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginRight="16dp"
+                        android:drawableLeft="@drawable/ic_user"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@color/themeColor2"
+                        android:hint="Username"
+                        android:inputType="text"
+                        android:padding="8dp"
+                        android:textSize="@dimen/text_size_small" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_24dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/margin_8dp"
+                    app:passwordToggleDrawable="@drawable/icon_eye"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/themeColor2">
+
+                    <EditText
+                        android:id="@+id/passedt"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginRight="16dp"
+                        android:drawableStart="@drawable/icon_key"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@color/themeColor2"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:padding="8dp"
+                        android:textSize="@dimen/text_size_small" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:id="@+id/loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:background="@color/themeColor2"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Sign-in"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:text="Forgot password?"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small" />
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bottom_overlay" />
+
+
+</RelativeLayout>

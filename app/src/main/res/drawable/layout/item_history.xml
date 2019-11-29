@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/cardview_radius"
+
+            app:cardUseCompatPadding="true">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10"
+                android:orientation="horizontal">
+
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="7"
+    android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"
+
+                    android:text="AC repair - (Carrier MV4 model)"
+                    android:textColor="@color/black"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/green_dot"
+        android:text="Completed"
+        android:gravity="center"
+        android:drawablePadding="4dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>
+
+
+<ImageView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:src="@drawable/dash_ac"
+    android:layout_weight="3"/>
+
+
+            </LinearLayout>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="550 RS/-"
+                    android:paddingVertical="4dp"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="24/08/2019"
+                        android:paddingVertical="4dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:gravity="right"
+                        android:textColor="@color/black"/>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
