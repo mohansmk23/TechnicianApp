@@ -8,4 +8,15 @@
     <string name="hint_product">Product</string>
     <string name="hint_next">Next</string>
     <string name="title_activity_maps">Map</string>
+    <string name="quality_affordable_trust">Quality | Affordable | Trust</string>
+    <string name="technician_login">Technician login</string>
+    <string name="login">LOGIN</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign-in</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="error_empty_username">Username Can not be empty</string>
+    <string name="error_length_username">Username should at least two character</string>
+    <string name="error_empty_password">Password Can not be empty</string>
+    <string name="error_length_password">Password should at least two character</string>
 </resources>

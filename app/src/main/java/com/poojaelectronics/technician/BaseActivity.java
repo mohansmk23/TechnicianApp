@@ -1,14 +1,14 @@
 package com.poojaelectronics.technician;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.Objects;
 
@@ -20,14 +20,12 @@ public class BaseActivity extends AppCompatActivity
         super.onCreate( savedInstanceState );
         Objects.requireNonNull( getSupportActionBar() ).show();
         getSupportActionBar().setDisplayHomeAsUpEnabled( true );
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.app_gradient));
-//        getWindow().setFlags(  WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-        Drawable background = this.getResources().getDrawable(R.drawable.app_gradient);
+        getSupportActionBar().setBackgroundDrawable( ContextCompat.getDrawable( this,R.drawable.app_gradient )) ;
+        Drawable background = ContextCompat.getDrawable( this, R.drawable.app_gradient );
         Window w = getWindow();
         w.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-        w.setStatusBarColor(this.getResources().getColor(android.R.color.transparent));
-        w.setBackgroundDrawable(background);
-//        w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
+        w.setStatusBarColor( ContextCompat.getColor( this, android.R.color.transparent ) );
+        w.setBackgroundDrawable( background );
         Objects.requireNonNull( getSupportActionBar() ).setDisplayHomeAsUpEnabled( true );
     }
 

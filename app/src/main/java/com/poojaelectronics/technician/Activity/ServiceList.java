@@ -109,7 +109,7 @@ public class ServiceList extends BaseActivity
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected( @NonNull MenuItem item) {
         switch(item.getItemId()) {
         case R.id.logout:
             finish();

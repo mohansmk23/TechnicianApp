@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rootLay"
+    android:background="@drawable/splash_bg_img"
     tools:context=".Activity.SplashScreen">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/center_card"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_8dp"
-        android:text="Quality | Affordable | Trust"
-        android:textColor="@color/grey"
-        android:textSize="@dimen/text_size_small"
-        android:textStyle="bold" />
-
-
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/center_card"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:clipToPadding="false"
-        app:cardBackgroundColor="@color/themeColor2"
-        app:cardCornerRadius="150dp"
-        app:cardElevation="@dimen/margin_8dp"
-        app:cardUseCompatPadding="true">
+        android:background="@drawable/card_background"
+        android:backgroundTint="@color/themeColor2"
+        android:clipToPadding="false">
 
 
-        <ImageView
-            android:id="@+id/pelogo"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogo"
             android:layout_width="80dp"
+            android:layout_centerInParent="true"
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:src="@drawable/pe_logo" />
 
-    </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@id/center_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quality_affordable_trust"
+        android:textSize="@dimen/text_size_small"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:textColor="@color/darkgrey"/>
+
 
 
 </RelativeLayout>
