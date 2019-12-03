@@ -126,11 +126,11 @@
                             android:layout_marginEnd="16dp"
                             android:drawableStart="@drawable/icon_key"
                             android:drawablePadding="4dp"
+                            android:onEditorAction="@{()->login.isUserValid}"
                             android:drawableTint="@color/themeColor2"
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:padding="8dp"
-                            android:onEditorAction=""
                             android:text="@={login.getLoginModel().password}"
                             android:textSize="@dimen/text_size_small"
                             app:error="@{login.passwordError}" />

@@ -107,6 +107,10 @@ public class LoginActivity extends AppCompatActivity
                 Intent serviceListIntent = new Intent( context, ServiceList.class );
                 context.startActivity( serviceListIntent );
             }
+            else
+            {
+                Toast.makeText( context, "test", Toast.LENGTH_SHORT ).show();
+            }
         }
     }
 

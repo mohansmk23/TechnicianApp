@@ -20,10 +20,9 @@
         <activity android:name=".Activity.OngoingTask"/>
         <activity
             android:name=".login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent" />
+            android:screenOrientation="portrait" />
         <activity android:name=".MapsActivity" />
-        <activity android:name=".Activity.StartTask" />
+        <activity android:name="$Activity.StartTask" />
         <activity android:name=".Activity.ServiceList" />
         <activity android:name=".Activity.SplashScreen"
             android:screenOrientation="portrait">
