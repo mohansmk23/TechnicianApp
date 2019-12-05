@@ -54,5 +54,6 @@ public class SplashScreen extends AppCompatActivity
         intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X, revealX );
         intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY );
         ActivityCompat.startActivity( this, intent, options.toBundle() );
+        finish();
     }
 }

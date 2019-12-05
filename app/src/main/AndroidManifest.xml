@@ -17,14 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.OngoingTask"/>
-        <activity
-            android:name=".login.LoginActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.OngoingTask" />
+        <activity android:name=".login.LoginActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".MapsActivity" />
-        <activity android:name="$Activity.StartTask" />
+        <activity android:name=".Activity.StartTask" />
         <activity android:name=".Activity.ServiceList" />
-        <activity android:name=".Activity.SplashScreen"
+        <activity
+            android:name=".Activity.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +39,5 @@
 
         <service android:name=".TrackerService" />
     </application>
-
 
 </manifest>

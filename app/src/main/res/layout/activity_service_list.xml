@@ -11,13 +11,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rootLay"
     android:background="@color/defaultColor"
     android:orientation="vertical">
 
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
-        fontPath="fonts/ArchitectsDaughter.ttf"
+        style="fonts/ArchitectsDaughter.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"

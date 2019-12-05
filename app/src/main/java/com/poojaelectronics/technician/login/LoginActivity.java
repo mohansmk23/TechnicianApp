@@ -10,10 +10,12 @@
 package com.poojaelectronics.technician.login;
 
 import android.animation.Animator;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
@@ -24,11 +26,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.Activity.ServiceList;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
+import com.poojaelectronics.technician.model.LoginResponse;
 import com.poojaelectronics.technician.viewmodel.LoginViewModel;
 
 import java.util.Objects;
@@ -42,20 +48,29 @@ public class LoginActivity extends AppCompatActivity
     private int revealX;
     private int revealY;
     LoginViewModel loginViewModel;
+    ProgressDialog pdialog;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
+        pdialog = new ProgressDialog(LoginActivity.this);
+        pdialog.setTitle( "Logging in" );
+        pdialog.setMessage("Please wait...");
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView( this, R.layout.activity_login );
         loginViewModel = ViewModelProviders.of( this ).get( LoginViewModel.class );
+        if( savedInstanceState == null )
+        {
+            loginViewModel.init();
+        }
         activityLoginBinding.setLogin( loginViewModel );
-        activityLoginBinding.setClickHandler( new LoginActivityClickHandler(this) );
+        activityLoginBinding.setClickHandler( new LoginActivityClickHandler( this ) );
         Objects.requireNonNull( getSupportActionBar() ).hide();
         Window w = getWindow();
         w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
         final Intent intent = getIntent();
         rootLayout = findViewById( R.id.rootLay );
+        setupObservers();
         if( savedInstanceState == null && intent.hasExtra( EXTRA_CIRCULAR_REVEAL_X ) && intent.hasExtra( EXTRA_CIRCULAR_REVEAL_Y ) )
         {
             rootLayout.setVisibility( View.INVISIBLE );
@@ -81,6 +96,7 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
+
     protected void revealActivity( int x, int y )
     {
         float finalRadius = ( float ) ( Math.max( rootLayout.getWidth(), rootLayout.getHeight() ) * 1.1 );
@@ -102,16 +118,49 @@ public class LoginActivity extends AppCompatActivity
 
         public void onSignInClicked( View view )
         {
-            if( loginViewModel.isValid() )
+            loginViewModel.isPasswordValid();
+            /*if( loginViewModel.isPasswordValid() )
             {
                 Intent serviceListIntent = new Intent( context, ServiceList.class );
                 context.startActivity( serviceListIntent );
-            }
-            else
-            {
-                Toast.makeText( context, "test", Toast.LENGTH_SHORT ).show();
-            }
+            }*/
         }
+    }
+
+    public void setupObservers()
+    {
+        LiveData<LoginResponse> loginResponseLiveData = loginViewModel.getLoginResponse();
+        loginResponseLiveData.observe( this, new Observer<LoginResponse>() {
+            @Override
+            public void onChanged( LoginResponse loginResponse )
+            {
+                if( loginResponse != null )
+                {
+                    if(loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" )  )
+                    {
+                        Intent serviceListIntent = new Intent( LoginActivity.this, ServiceList.class );
+                        startActivity( serviceListIntent );
+                        finish();
+                    }
+                    else
+                    {
+                        Snackbar.make( rootLayout , loginResponse.getOutput().get( 0 ).getMessage(),Snackbar.LENGTH_LONG ).show();
+                    }
+                }
+            }
+        } );
+
+        loginViewModel.getIsLoading().observe( this, new Observer<Boolean>() {
+            @Override
+            public void onChanged( Boolean aBoolean )
+            {
+                if (aBoolean)
+                    pdialog.show();
+                else
+                    pdialog.dismiss();
+            }
+        } );
+
     }
 
     @Override
@@ -125,7 +174,7 @@ public class LoginActivity extends AppCompatActivity
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText( this, "Please click BACK again to exit", Toast.LENGTH_SHORT ).show();
+        Snackbar.make( rootLayout, "Please click BACK again to exit", Snackbar.LENGTH_LONG ).show();
         new Handler().postDelayed( new Runnable()
         {
             @Override
@@ -135,7 +184,6 @@ public class LoginActivity extends AppCompatActivity
             }
         }, 2000 );
     }
-
 }
 
 
