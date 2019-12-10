@@ -12,7 +12,7 @@
 
         <variable
             name="clickHandler"
-            type="com.poojaelectronics.technician.login.LoginActivity.LoginActivityClickHandler" />
+            type="com.poojaelectronics.technician.view.LoginActivity.LoginActivityClickHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
         android:background="@drawable/app_gradient_vertical"
         android:orientation="vertical"
         android:weightSum="5"
-        tools:context=".login.LoginActivity">
+        tools:context=".view.LoginActivity">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"

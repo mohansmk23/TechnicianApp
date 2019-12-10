@@ -22,4 +22,18 @@
     <string name="ongoing">ONGOING</string>
     <string name="history">HISTORY</string>
     <string name="customer_name">Customer Name</string>
+    <string name="paused">Paused</string>
+    <string name="scheduled_date">Scheduled Date :</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="brand">Brand</string>
+    <string name="service_type">Service Type</string>
+    <string name="service">Service</string>
+    <string name="more_details">More details</string>
+    <string name="other_details">Other details</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="start_task">Start Task</string>
 </resources>

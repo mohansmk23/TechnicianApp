@@ -7,7 +7,7 @@
  *  *
  */
 
-package com.poojaelectronics.technician.Activity;
+package com.poojaelectronics.technician.activity;
 
 import android.os.Bundle;
 import android.os.Handler;

@@ -5,7 +5,12 @@
 
         <variable
             name="itemPendingList"
-            type="com.poojaelectronics.technician.viewmodel.PendingListViewModel" />
+            type="com.poojaelectronics.technician.model.PendingListModel" />
+
+        <variable
+            name="clickHandler"
+            type="com.poojaelectronics.technician.activity.EventHandlers" />
+
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,6 +26,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             app:cardCornerRadius="@dimen/cardview_radius"
+            android:onClick="@{clickHandler::OnItemClick}"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -51,6 +57,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@{itemPendingList.service_type}"
                             android:textColor="@color/black"
                             android:typeface="sans" />
 
@@ -66,7 +73,7 @@
                             android:drawableTint="#ff7043"
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/margin_8dp"
-                            android:text=""
+                            android:text="@{itemPendingList.status}"
                             android:textAlignment="center"
                             android:textColor="#ff7043"
                             android:textSize="@dimen/text_size_micro" />
@@ -86,7 +93,7 @@
                             android:drawablePadding="4dp"
                             android:drawableTint="@color/medium_grey"
                             android:gravity="center"
-                            android:text=""
+                            android:text="@{itemPendingList.date}"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -98,7 +105,7 @@
                             android:drawablePadding="4dp"
                             android:drawableTint="@color/medium_grey"
                             android:gravity="center"
-                            android:text=""
+                            android:text="@{itemPendingList.time}"
                             android:textColor="@color/black" />
 
                     </LinearLayout>
@@ -122,7 +129,7 @@
                             android:background="@drawable/et_border"
                             android:drawablePadding="4dp"
                             android:gravity="center"
-                            android:text=""
+                            android:text="@{itemPendingList.customer_name}"
                             android:textColor="@color/black" />
 
                     </LinearLayout>
@@ -134,7 +141,7 @@
                         android:drawableStart="@drawable/icon_location"
                         android:drawablePadding="4dp"
                         android:drawableTint="@color/themeColor2"
-                        android:text=""
+                        android:text="@{itemPendingList.address}"
                         android:textColor="@color/black" />
 
                 </LinearLayout>

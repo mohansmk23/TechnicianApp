@@ -14,7 +14,7 @@
         tools:itemCount="10"
         tools:listitem="@layout/item_pending_list" />
 
-    <include
+   <!-- <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/item_history" />
@@ -25,7 +25,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/item_history" />
+        layout="@layout/item_history" />-->
 
 
 

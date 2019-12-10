@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+    
+    <data>
+        <variable
+            name="historyItemList"
+            type="com.poojaelectronics.technician.model.HistoryListModel" />
+    </data>
 
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="4dp">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/cardview_radius"
-
             app:cardUseCompatPadding="true">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,13 +26,11 @@
                 android:orientation="vertical"
                 android:padding="4dp">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="10"
-                    android:orientation="horizontal">
-
+                    android:orientation="horizontal"
+                    android:weightSum="10">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -40,38 +38,33 @@
                         android:layout_weight="7"
                         android:orientation="vertical">
 
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="AC repair service"
+                                android:text="@{historyItemList.service_type}"
                                 android:textColor="@color/black"
-                                android:typeface="sans"/>
-
+                                android:typeface="sans" />
 
                             <TextView
-                                android:layout_marginLeft="8dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Completed"
-                                android:paddingHorizontal="@dimen/margin_8dp"
-                                android:gravity="center"
-                                android:textAlignment="center"
                                 android:layout_gravity="center"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/et_border"
+                                android:backgroundTint="@color/lightgreen"
+                                android:drawableStart="@drawable/icon_micro_tick"
                                 android:drawablePadding="4dp"
-                                android:textSize="@dimen/text_size_micro"
-                                android:drawableLeft="@drawable/icon_micro_tick"
+                                android:gravity="center"
+                                android:paddingHorizontal="@dimen/margin_8dp"
+                                android:text="@{historyItemList.status}"
+                                android:textAlignment="center"
                                 android:textColor="@color/green"
-                                android:background="@drawable/et_border"
-                                android:backgroundTint="@color/lightgreen"/>
-
-
+                                android:textSize="@dimen/text_size_micro" />
 
                         </LinearLayout>
 
@@ -80,23 +73,21 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_16dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/scheduled_date"
+                                android:textSize="@dimen/text_size_micro" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Scheduled Date :"
-                                android:textSize="@dimen/text_size_micro"/>
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="4dp"
-                                android:gravity="center"
+                                android:layout_marginStart="4dp"
                                 android:background="@drawable/et_border"
                                 android:drawablePadding="4dp"
-                                android:textColor="@color/black"
-                                android:text="13/02/2019"/>
+                                android:gravity="center"
+                                android:text="@{historyItemList.date}"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
@@ -105,47 +96,38 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_16dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/customer_name"
+                                android:textSize="@dimen/text_size_micro" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Customer :"
-                                android:textSize="@dimen/text_size_micro"/>
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="4dp"
-                                android:gravity="center"
+                                android:layout_marginStart="4dp"
                                 android:background="@drawable/et_border"
                                 android:drawablePadding="4dp"
-                                android:textColor="@color/black"
-                                android:text="Mr. Saravana kumar"/>
+                                android:gravity="center"
+                                android:text="@{historyItemList.customer_name}"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
-
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/dash_ac"
-                        android:layout_weight="3"/>
-
+                        android:layout_weight="3"
+                        android:src="@drawable/dash_ac" />
 
                 </LinearLayout>
-
-
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@android:color/darker_gray"/>
-
-
-
+                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,73 +139,39 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:paddingVertical="4dp"
-                        android:text="550 RS/-"
-                        android:textColor="@color/darkgrey"
-                        android:gravity="center_vertical"
+                        android:drawableStart="@drawable/ic_rupee_small"
                         android:drawablePadding="4dp"
-                        android:drawableLeft="@drawable/ic_rupee_small"
+                        android:gravity="center_vertical"
+                        android:paddingVertical="4dp"
+                        android:text="@{historyItemList.amount}"
+                        android:textColor="@color/darkgrey"
                         android:textSize="14sp"
                         android:textStyle="bold" />
-
-
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="right|center_vertical"
+                        android:gravity="end|center_vertical"
                         android:orientation="vertical">
-
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Royapettah"
-                            android:drawableLeft="@drawable/icon_location"
+                            android:drawableStart="@drawable/icon_location"
                             android:drawablePadding="4dp"
                             android:drawableTint="@color/themeColor2"
-                            android:textColor="@color/black"
-                            />
-
+                            android:text="@{historyItemList.address}"
+                            android:textColor="@color/black" />
 
                     </LinearLayout>
 
-
-
                 </LinearLayout>
-
 
             </LinearLayout>
 
-
-
-
-
-
-
-
         </androidx.cardview.widget.CardView>
-
-
-
-
-
-
-
-
-
 
     </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-
-</LinearLayout>
+</layout>

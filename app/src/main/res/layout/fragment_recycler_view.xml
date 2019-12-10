@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ /**
   ~  * Developed by Saravana  on 8/13/19 4:28 PM
   ~  * Copyright (c) 2019 . All rights reserved.
@@ -14,26 +15,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noRecord"
+        android:visibility="gone"
+        android:text="@string/no_data_available"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="10"
         tools:listitem="@layout/item_pending_list" />
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/item_pending_list" />
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/item_pending_list" />
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/item_pending_list" />
-   
-
 
 </LinearLayout>

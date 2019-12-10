@@ -17,14 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activity.OngoingTask" />
-        <activity android:name=".login.LoginActivity"
+        <activity android:name=".activity.OngoingTask" />
+        <activity android:name=".view.LoginActivity"
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".MapsActivity" />
-        <activity android:name=".Activity.StartTask" />
-        <activity android:name=".Activity.ServiceList" />
+        <activity android:name=".view.StartTask" />
+        <activity android:name=".activity.ServiceList" />
         <activity
-            android:name=".Activity.SplashScreen"
+            android:name=".activity.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BaseActivity" />
+        <activity android:name=".view.LoginActivity$LoginActivityClickHandler" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

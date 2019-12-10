@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -75,7 +74,7 @@ public class LoginViewModel extends ViewModel
         return false;
     }
 
-    public boolean isPasswordValid()
+    private boolean isPasswordValid()
     {
         if( loginModel.getPassword() != null && loginModel.getPassword().length() >= 2 )
         {
@@ -96,7 +95,7 @@ public class LoginViewModel extends ViewModel
         return false;
     }
 
-    public boolean isValid()
+    private boolean isValid()
     {
         return isUserValid() && isPasswordValid();
     }

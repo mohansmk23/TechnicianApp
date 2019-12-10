@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/rootLay"
     android:background="@drawable/splash_bg_img"
-    tools:context=".Activity.SplashScreen">
+    tools:context=".activity.SplashScreen">
 
     <RelativeLayout
         android:id="@+id/center_card"

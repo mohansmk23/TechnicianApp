@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician.Activity;
+package com.poojaelectronics.technician.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.login.LoginActivity;
+import com.poojaelectronics.technician.view.LoginActivity;
 
 public class SplashScreen extends AppCompatActivity
 {

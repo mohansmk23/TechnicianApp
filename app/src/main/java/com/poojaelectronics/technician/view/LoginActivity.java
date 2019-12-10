@@ -7,7 +7,7 @@
  *  *
  */
 
-package com.poojaelectronics.technician.login;
+package com.poojaelectronics.technician.view;
 
 import android.animation.Animator;
 import android.app.ProgressDialog;
@@ -15,14 +15,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -31,7 +29,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.poojaelectronics.technician.Activity.ServiceList;
+import com.poojaelectronics.technician.activity.ServiceList;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
 import com.poojaelectronics.technician.model.LoginResponse;
@@ -48,15 +46,15 @@ public class LoginActivity extends AppCompatActivity
     private int revealX;
     private int revealY;
     LoginViewModel loginViewModel;
-    ProgressDialog pdialog;
+    ProgressDialog pDialog;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-        pdialog = new ProgressDialog(LoginActivity.this);
-        pdialog.setTitle( "Logging in" );
-        pdialog.setMessage("Please wait...");
+        pDialog = new ProgressDialog( LoginActivity.this );
+        pDialog.setTitle( "Logging in" );
+        pDialog.setMessage( "Please wait..." );
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView( this, R.layout.activity_login );
         loginViewModel = ViewModelProviders.of( this ).get( LoginViewModel.class );
         if( savedInstanceState == null )
@@ -64,7 +62,7 @@ public class LoginActivity extends AppCompatActivity
             loginViewModel.init();
         }
         activityLoginBinding.setLogin( loginViewModel );
-        activityLoginBinding.setClickHandler( new LoginActivityClickHandler( this ) );
+        activityLoginBinding.setClickHandler( new LoginActivityClickHandler(this) );
         Objects.requireNonNull( getSupportActionBar() ).hide();
         Window w = getWindow();
         w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
@@ -96,7 +94,6 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
-
     protected void revealActivity( int x, int y )
     {
         float finalRadius = ( float ) ( Math.max( rootLayout.getWidth(), rootLayout.getHeight() ) * 1.1 );
@@ -107,7 +104,7 @@ public class LoginActivity extends AppCompatActivity
         circularReveal.start();
     }
 
-    public class LoginActivityClickHandler
+    public class LoginActivityClickHandler extends LoginActivity
     {
         Context context;
 
@@ -118,25 +115,21 @@ public class LoginActivity extends AppCompatActivity
 
         public void onSignInClicked( View view )
         {
-            loginViewModel.isPasswordValid();
-            /*if( loginViewModel.isPasswordValid() )
-            {
-                Intent serviceListIntent = new Intent( context, ServiceList.class );
-                context.startActivity( serviceListIntent );
-            }*/
+            loginViewModel.passwordEditorAction();
         }
     }
 
     public void setupObservers()
     {
         LiveData<LoginResponse> loginResponseLiveData = loginViewModel.getLoginResponse();
-        loginResponseLiveData.observe( this, new Observer<LoginResponse>() {
+        loginResponseLiveData.observe( this, new Observer<LoginResponse>()
+        {
             @Override
             public void onChanged( LoginResponse loginResponse )
             {
                 if( loginResponse != null )
                 {
-                    if(loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" )  )
+                    if( loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
                     {
                         Intent serviceListIntent = new Intent( LoginActivity.this, ServiceList.class );
                         startActivity( serviceListIntent );
@@ -144,23 +137,27 @@ public class LoginActivity extends AppCompatActivity
                     }
                     else
                     {
-                        Snackbar.make( rootLayout , loginResponse.getOutput().get( 0 ).getMessage(),Snackbar.LENGTH_LONG ).show();
+                        Snackbar.make( rootLayout, loginResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
                     }
                 }
+                //ToDo handle else case
             }
         } );
-
-        loginViewModel.getIsLoading().observe( this, new Observer<Boolean>() {
+        loginViewModel.getIsLoading().observe( this, new Observer<Boolean>()
+        {
             @Override
             public void onChanged( Boolean aBoolean )
             {
-                if (aBoolean)
-                    pdialog.show();
+                if( aBoolean )
+                {
+                    pDialog.show();
+                }
                 else
-                    pdialog.dismiss();
+                {
+                    pDialog.dismiss();
+                }
             }
         } );
-
     }
 
     @Override

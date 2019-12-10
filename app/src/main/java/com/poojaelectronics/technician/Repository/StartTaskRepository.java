@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.poojaelectronics.technician.Retrofit.Api;
 import com.poojaelectronics.technician.Retrofit.RetrofitService;
-import com.poojaelectronics.technician.model.LoginResponse;
+import com.poojaelectronics.technician.model.StartTaskResponse;
 
 import java.util.HashMap;
 
@@ -13,23 +13,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginRepository
+public class StartTaskRepository
 {
-    private static LoginRepository loginRepository;
+    private static StartTaskRepository startTaskRepository;
     private Api api;
-    private MutableLiveData<LoginResponse> loginResponse = new MutableLiveData<>();
+    private MutableLiveData<StartTaskResponse> loginResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public static LoginRepository getInstance()
-    {
-        if( loginRepository == null )
-        {
-            loginRepository = new LoginRepository();
-        }
-        return loginRepository;
-    }
-
-    public MutableLiveData<LoginResponse> getLoginResponse()
+    public MutableLiveData<StartTaskResponse> getLoginResponse()
     {
         return loginResponse;
     }
@@ -39,18 +30,18 @@ public class LoginRepository
         return isLoading;
     }
 
-    public LoginRepository()
+    public StartTaskRepository()
     {
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData login( HashMap<String, Object> body )
+    public MutableLiveData getCustomerDetails( HashMap<String, Object> body )
     {
         isLoading.setValue( true );
-        api.login( body ).enqueue( new Callback<LoginResponse>()
+        api.customer_details( body ).enqueue( new Callback<StartTaskResponse>()
         {
             @Override
-            public void onResponse( @NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response )
+            public void onResponse( @NonNull Call<StartTaskResponse> call, @NonNull Response<StartTaskResponse> response )
             {
                 isLoading.postValue( false );
                 if( response.isSuccessful() )
@@ -60,7 +51,7 @@ public class LoginRepository
             }
 
             @Override
-            public void onFailure( @NonNull Call<LoginResponse> call, @NonNull Throwable t )
+            public void onFailure( @NonNull Call<StartTaskResponse> call, @NonNull Throwable t )
             {
                 t.printStackTrace();
                 isLoading.postValue( false );
