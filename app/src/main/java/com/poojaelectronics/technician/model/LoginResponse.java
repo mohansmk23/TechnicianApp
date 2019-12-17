@@ -74,6 +74,20 @@ public class LoginResponse
             @SerializedName("auth_key")
             @Expose
             private String authKey;
+            @SerializedName( "tech_id")
+            @Expose
+            private String techId;
+
+
+            public String getTechId()
+            {
+                return techId;
+            }
+
+            public void setTechId( String techId )
+            {
+                this.techId = techId;
+            }
 
             public String getTechnicianName() {
                 return technicianName;

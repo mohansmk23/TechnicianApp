@@ -16,6 +16,8 @@
     <string name="sign_in">Sign-in</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="error_empty_username">Username Can not be empty</string>
+    <string name="error_sign">Signature Mandatory</string>
+    <string name="error_amount">Amount Can not be empty</string>
     <string name="error_length_username">Username should at least two character</string>
     <string name="error_empty_password">Password Can not be empty</string>
     <string name="error_length_password">Password should at least two character</string>
@@ -36,4 +38,24 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="start_task">Start Task</string>
+    <string name="complete_task">Complete Task</string>
+    <string name="reached">Reached</string>
+    <string name="pickup_task">Pickup Task</string>
+    <string name="job_picked_up">Job picked up</string>
+    <string name="location_reached">Location Reached</string>
+    <string name="task_started">Task Started</string>
+    <string name="pickup_tittle">Are you sure you want to pickup the task?
+You CAN NOT pickup this task click cancel</string>
+    <string name="reached_tittle">Are you sure you reached the destination?
+You CAN NOT reach the destination click cancel</string>
+    <string name="start_tittle">Are you sure you want to start the task?
+You CAN NOT start this task click cancel</string>
+    <string name="complete_tittle">Are you sure you want to complete the task?
+You CAN NOT complete this task click cancel</string>
+    <string name="clear">Clear</string>
+    <string name="confirm">Confirm Sign</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="remarks_optional">Remarks(optional)</string>
+    <string name="acknowledgement">By signing below I confirm</string>
+    <string name="customer_rating">Customer Rating</string>
 </resources>

@@ -29,8 +29,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.poojaelectronics.technician.activity.ServiceList;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.Retrofit.Session;
+import com.poojaelectronics.technician.activity.ServiceList;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
 import com.poojaelectronics.technician.model.LoginResponse;
 import com.poojaelectronics.technician.viewmodel.LoginViewModel;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity
     private int revealY;
     LoginViewModel loginViewModel;
     ProgressDialog pDialog;
+    Session session;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -55,6 +57,7 @@ public class LoginActivity extends AppCompatActivity
         pDialog = new ProgressDialog( LoginActivity.this );
         pDialog.setTitle( "Logging in" );
         pDialog.setMessage( "Please wait..." );
+        session = new Session(this);
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView( this, R.layout.activity_login );
         loginViewModel = ViewModelProviders.of( this ).get( LoginViewModel.class );
         if( savedInstanceState == null )
@@ -116,6 +119,7 @@ public class LoginActivity extends AppCompatActivity
         public void onSignInClicked( View view )
         {
             loginViewModel.passwordEditorAction();
+            Snackbar.make( view, "Sign in....", Snackbar.LENGTH_LONG );
         }
     }
 
@@ -131,6 +135,7 @@ public class LoginActivity extends AppCompatActivity
                 {
                     if( loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
                     {
+                        session.setTechId( loginResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTechId() );
                         Intent serviceListIntent = new Intent( LoginActivity.this, ServiceList.class );
                         startActivity( serviceListIntent );
                         finish();
@@ -140,7 +145,10 @@ public class LoginActivity extends AppCompatActivity
                         Snackbar.make( rootLayout, loginResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
                     }
                 }
-                //ToDo handle else case
+                else
+                {
+                    Snackbar.make( rootLayout, "Server Busy.....!", Snackbar.LENGTH_LONG ).show();
+                }
             }
         } );
         loginViewModel.getIsLoading().observe( this, new Observer<Boolean>()

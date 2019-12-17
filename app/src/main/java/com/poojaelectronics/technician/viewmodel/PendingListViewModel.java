@@ -18,13 +18,13 @@ public class PendingListViewModel extends ViewModel
       return mvdPendingListResponse;
    }
 
-   public void init()
+   public void init(String techId)
    {
       PendingListRepository pendingListRepository = new PendingListRepository();
       pendingListResponse = new PendingListResponse();
       HashMap<String, Object> pendingObject = new HashMap<>();
       pendingObject.put( "apimethod", "technician_list" );
-      pendingObject.put( "tech_id", "2" );
+      pendingObject.put( "tech_id", techId );
       mvdPendingListResponse = pendingListRepository.getPendingList( pendingObject );
    }
 

@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.Retrofit.Session;
+import com.poojaelectronics.technician.activity.UpdateBadgeCount;
 import com.poojaelectronics.technician.databinding.ItemHistoryBinding;
 import com.poojaelectronics.technician.model.HistoryListModel;
 import com.poojaelectronics.technician.model.HistoryListResponse;
@@ -35,15 +37,18 @@ import java.util.Objects;
 
 public class HistoryFragment extends Fragment
 {
-   private RecyclerView recyclerView;
+    private RecyclerView recyclerView;
+    private Session session;
+
     @Nullable
     @Override
     public View onCreateView( @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState )
     {
-        View historyFragment = inflater.inflate( R.layout.fragment_history , container, false );
+        View historyFragment = inflater.inflate( R.layout.fragment_history, container, false );
+        session = new Session( getActivity() );
         recyclerView = historyFragment.findViewById( R.id.recyclerView );
         HistoryListViewModel historyListViewModel = ViewModelProviders.of( Objects.requireNonNull( getActivity() ) ).get( HistoryListViewModel.class );
-        historyListViewModel.init();
+        historyListViewModel.init( session.getTechId() );
         historyListViewModel.getMvdPendingListResponse().observe( this, new Observer<HistoryListResponse>()
         {
             @Override
@@ -55,11 +60,12 @@ public class HistoryFragment extends Fragment
                     {
                         recyclerView.setVisibility( View.VISIBLE );
                         setUpRecyclerView( prepareData( loginResponse.getOutput().get( 0 ).getCompletedList() ) );
+                        ( ( UpdateBadgeCount ) getActivity() ).updateHistoryBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getCompletedList().size() ));
                     }
                 }
             }
         } );
-        return historyFragment  ;
+        return historyFragment;
     }
 
     private List<HistoryListModel> prepareData( List<HistoryListResponse.Output.CompletedList> pendingList )
@@ -75,7 +81,7 @@ public class HistoryFragment extends Fragment
             pendingListModel.setDate( pendingList.get( i ).getDate() );
             pendingListModel.setPhone( pendingList.get( i ).getPhone() );
             pendingListModel.setCustomer_name( pendingList.get( i ).getCustomerName() );
-//            pendingListModel.setImage_url( pendingList.get( i ).getImageUrl() );
+            //            pendingListModel.setImage_url( pendingList.get( i ).getImageUrl() );
             pendingListModel.setTime( pendingList.get( i ).getTime() );
             pendingListModel.setAmount( pendingList.get( i ).getAmount() );
             pendingListModel.setCancel_remarks( pendingList.get( i ).getCancelRemarks() );

@@ -2,7 +2,17 @@ package com.poojaelectronics.technician.model;
 
 public class StartTaskModel
 {
-    String customer_name, address, phone, email, category_name, service_type, brand_name, technician_name, date, time, remarks, status, cancel_remarks, created_at, re_schedule, re_date, re_time, lat, lng;
+    private String customer_name,admin_mobile_number, address, phone, email, category_name, service_type, brand_name, technician_name, date, time, remarks, status, cancel_remarks, created_at, re_schedule, re_date, re_time, lat, lng;
+
+    public String getAdmin_mobile_number()
+    {
+        return admin_mobile_number;
+    }
+
+    public void setAdmin_mobile_number( String admin_mobile_number )
+    {
+        this.admin_mobile_number = admin_mobile_number;
+    }
 
     public String getCustomer_name()
     {

@@ -24,7 +24,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.poojaelectronics.technician.Retrofit.Session;
 import com.poojaelectronics.technician.activity.EventHandlers;
+import com.poojaelectronics.technician.activity.UpdateBadgeCount;
 import com.poojaelectronics.technician.view.StartTask;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.databinding.ItemPendingListBinding;
@@ -46,7 +48,8 @@ public class PendingFragment extends Fragment
         View pendingFragment = inflater.inflate( R.layout.fragment_recycler_view, container, false );
         recyclerView = pendingFragment.findViewById( R.id.recyclerView );
         PendingListViewModel pendingListViewModel = ViewModelProviders.of( this ).get( PendingListViewModel.class );
-        pendingListViewModel.init();
+        Session session = new Session( getActivity() );
+        pendingListViewModel.init( session.getTechId());
         pendingListViewModel.getMvdPendingListResponse().observe( this, new Observer<PendingListResponse>()
         {
             @Override
@@ -58,6 +61,7 @@ public class PendingFragment extends Fragment
                     {
                         recyclerView.setVisibility( View.VISIBLE );
                         setUpRecyclerView( prepareData( loginResponse.getOutput().get( 0 ).getBookinglist() ) );
+                        ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getBookinglist().size() ));
                     }
                 }
             }
@@ -131,13 +135,16 @@ public class PendingFragment extends Fragment
         @Override
         public void onBindViewHolder( final MyViewHolder holder, int position )
         {
-            PendingListModel model = serviceList.get( position );
+            final PendingListModel model = serviceList.get( position );
             holder.itemBinding.setItemPendingList( model );
             holder.itemBinding.setClickHandler( new EventHandlers() {
                 @Override
                 public void OnItemClick( View view )
                 {
-                    startActivity( new Intent( getActivity(),StartTask.class ) );
+                    Intent intent = new Intent( getActivity(), StartTask.class );
+                    intent.putExtra( "service_id",model.getServiceId() );
+                    intent.putExtra( "status",model.getStatus() );
+                    startActivity( intent );
                 }
             } );
             /*holder.itemBinding.setC( new EventHandlers() {

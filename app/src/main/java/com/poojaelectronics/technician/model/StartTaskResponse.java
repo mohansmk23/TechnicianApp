@@ -68,6 +68,9 @@ public class StartTaskResponse
             @SerializedName( "customer_name" )
             @Expose
             private String customerName;
+            @SerializedName( "admin_mobile_number" )
+            @Expose
+            private String adminMobileNumber;
             @SerializedName( "address" )
             @Expose
             private String address;
@@ -141,6 +144,16 @@ public class StartTaskResponse
             public void setAddress( String address )
             {
                 this.address = address;
+            }
+
+            public String getAdminMobileNumber()
+            {
+                return adminMobileNumber;
+            }
+
+            public void setAdminMobileNumber( String adminMobileNumber )
+            {
+                this.adminMobileNumber = adminMobileNumber;
             }
 
             public String getPhone()

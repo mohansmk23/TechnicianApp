@@ -87,6 +87,20 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_size_medium" />
 
+                        <!--<com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:paddingHorizontal="@dimen/margin_10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+
+                        </com.google.android.material.textfield.TextInputLayout>-->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -96,8 +110,9 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etUserName"
+                                android:backgroundTint="@android:color/transparent"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="18dp"
@@ -108,7 +123,6 @@
                                 android:hint="@string/username"
                                 android:inputType="text"
                                 android:onEditorAction="@{()->login.userEditorAction()}"
-                                android:padding="8dp"
                                 android:text="@={login.getLoginModel().userName}"
                                 android:textSize="@dimen/text_size_small"
                                 app:error="@{login.emailError}" />
@@ -119,7 +133,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/margin_24dp"
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/margin_8dp"
                             app:passwordToggleDrawable="@drawable/icon_eye"
@@ -128,8 +141,9 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etPassword"
+                                android:backgroundTint="@android:color/transparent"
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="18dp"
@@ -140,7 +154,6 @@
                                 android:hint="@string/password"
                                 android:inputType="textPassword"
                                 android:onEditorAction="@{()->login.passwordEditorAction()}"
-                                android:padding="8dp"
                                 android:text="@={login.getLoginModel().password}"
                                 android:textSize="@dimen/text_size_small"
                                 app:error="@{login.passwordError}" />
@@ -158,7 +171,7 @@
                     android:layout_marginTop="@dimen/margin_24dp"
                     android:backgroundTint="@color/themeColor2"
                     android:foreground="?attr/selectableItemBackground"
-                    android:onClick="@{clickHandler::onSignInClicked}"
+                    android:onClick="@{()->login.passwordEditorAction()}"
                     android:text="@string/sign_in"
                     android:textColor="@color/white" />
 

@@ -4,6 +4,7 @@
     package="com.poojaelectronics.technician">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -13,16 +14,20 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.OngoingTask" />
-        <activity android:name=".view.LoginActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".view.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".MapsActivity" />
         <activity android:name=".view.StartTask" />
-        <activity android:name=".activity.ServiceList" />
+        <activity
+            android:name=".activity.ServiceList"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SplashScreen"
             android:screenOrientation="portrait">
@@ -33,12 +38,15 @@
         </activity>
         <activity android:name=".BaseActivity" />
         <activity android:name=".view.LoginActivity$LoginActivityClickHandler" />
+        <activity android:name=".view.StartTask$StartTaskActivityClickHandler" />
+        <activity android:name=".view.CompleteTask" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <service android:name=".TrackerService" />
+        <service android:name=".TrackerService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

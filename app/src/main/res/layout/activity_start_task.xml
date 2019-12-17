@@ -10,14 +10,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="customerDetails"
             type="com.poojaelectronics.technician.model.StartTaskModel" />
+
+        <variable
+            name="OnClickHandler"
+            type="com.poojaelectronics.technician.view.StartTask.StartTaskActivityClickHandler" />
     </data>
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rootLay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/defaultColor">
 
         <LinearLayout
@@ -26,6 +33,27 @@
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/picked_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/cardview_radius">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/green"
+                    android:drawableEnd="@drawable/icon_like"
+                    android:gravity="center|left"
+                    android:paddingHorizontal="@dimen/margin_24dp"
+                    android:id="@+id/status"
+                    android:text="@string/job_picked_up"
+                    android:textColor="@color/white" />
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -51,9 +79,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_16dp"
                     android:layout_marginTop="@dimen/margin_24dp"
+                    android:baselineAligned="false"
                     android:paddingBottom="@dimen/margin_16dp"
-                    android:weightSum="10"
-                    android:baselineAligned="false">
+                    android:weightSum="10">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -127,17 +155,19 @@
                         android:weightSum="2">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/callCustomer"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@color/green"
                             android:clickable="true"
+                            android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
+                            android:onClick="@{OnClickHandler::onCustomerCallClicked}"
                             android:scaleType="centerInside"
                             android:src="@drawable/icon_call"
-                            android:tint="@color/white"
-                            android:focusable="true" />
+                            android:tint="@color/white" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/direction"
@@ -147,11 +177,11 @@
                             android:layout_weight="1"
                             android:background="#ef5350"
                             android:clickable="true"
+                            android:focusable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:scaleType="centerInside"
                             android:src="@drawable/icon_navigation"
-                            android:tint="@color/white"
-                            android:focusable="true" />
+                            android:tint="@color/white" />
 
                     </LinearLayout>
 
@@ -341,11 +371,20 @@
                 android:background="#388e3c"
                 android:gravity="center"
                 android:paddingVertical="18dp"
-                android:text="@string/start_task"
+                android:text="@string/pickup_task"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
         </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/icon_call"
+            android:id="@+id/fabAdminCall"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="25dp"/>
 
     </RelativeLayout>
 

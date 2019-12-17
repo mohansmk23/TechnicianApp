@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dialog_multi_choice_array">
+        <item>Please Confirm to start the task</item>
+    </string-array>
+</resources>
