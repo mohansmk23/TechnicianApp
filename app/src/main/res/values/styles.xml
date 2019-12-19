@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/themeColor1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,7 +9,7 @@
 
     <style name="AlertDialogTheme">
         <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Alert.Button.Negative</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
     </style>
 
     <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
@@ -35,12 +33,6 @@
 
     <style name="HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">@android:color/black</item>
-    </style>
-
-    <style name="AppTheme.Transparent" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
 </resources>

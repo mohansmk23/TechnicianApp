@@ -7,13 +7,14 @@
  *  *
  */
 
-package com.poojaelectronics.technician.ServiceListFragment;
+package com.poojaelectronics.technician.view.ServiceListFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,16 +24,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.poojaelectronics.technician.Retrofit.Session;
-import com.poojaelectronics.technician.activity.EventHandlers;
-import com.poojaelectronics.technician.activity.UpdateBadgeCount;
-import com.poojaelectronics.technician.view.StartTask;
+import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.common.Session;
+import com.poojaelectronics.technician.common.EventHandlers;
+import com.poojaelectronics.technician.common.UpdateBadgeCount;
 import com.poojaelectronics.technician.databinding.ItemPendingListBinding;
 import com.poojaelectronics.technician.model.PendingListModel;
 import com.poojaelectronics.technician.model.PendingListResponse;
-import com.poojaelectronics.technician.viewmodel.PendingListViewModel;
+import com.poojaelectronics.technician.view.StartTask;
+import com.poojaelectronics.technician.viewModel.PendingListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,9 @@ import java.util.List;
 public class PendingFragment extends Fragment
 {
     private RecyclerView recyclerView;
+    private TextView noData;
+    private SwipeRefreshLayout pullRefresh;
+    private PendingListViewModel pendingListViewModel;
 
     @Nullable
     @Override
@@ -47,26 +53,66 @@ public class PendingFragment extends Fragment
     {
         View pendingFragment = inflater.inflate( R.layout.fragment_recycler_view, container, false );
         recyclerView = pendingFragment.findViewById( R.id.recyclerView );
-        PendingListViewModel pendingListViewModel = ViewModelProviders.of( this ).get( PendingListViewModel.class );
-        Session session = new Session( getActivity() );
-        pendingListViewModel.init( session.getTechId());
-        pendingListViewModel.getMvdPendingListResponse().observe( this, new Observer<PendingListResponse>()
+        noData = pendingFragment.findViewById( R.id.noData );
+        pullRefresh = pendingFragment.findViewById( R.id.refresh );
+        pendingListViewModel = ViewModelProviders.of( this ).get( PendingListViewModel.class );
+        final Session session = new Session( getActivity() );
+        pendingListViewModel.init( session.getTechId() );
+        setupObservers();
+        pullRefresh.setColorSchemeResources( R.color.themeColor1, R.color.themeColor2, R.color.colorPrimary );
+        pullRefresh.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
             @Override
-            public void onChanged( PendingListResponse loginResponse )
+            public void onRefresh()
             {
-                if( loginResponse != null )
-                {
-                    if( loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
-                    {
-                        recyclerView.setVisibility( View.VISIBLE );
-                        setUpRecyclerView( prepareData( loginResponse.getOutput().get( 0 ).getBookinglist() ) );
-                        ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getBookinglist().size() ));
-                    }
-                }
+                pendingListViewModel.init( session.getTechId() );
             }
         } );
         return pendingFragment;
+    }
+
+    private void setupObservers()
+    {
+        pendingListViewModel.pendingListRepository.pendingListResponse.observe( this, new Observer<PendingListResponse>()
+        {
+            @Override
+            public void onChanged( PendingListResponse pendingListResponse )
+            {
+                pullRefresh.setRefreshing( false );
+                if( pendingListResponse != null )
+                {
+                    if( pendingListResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
+                    {
+                        recyclerView.setVisibility( View.VISIBLE );
+                        noData.setVisibility( View.GONE );
+                        setUpRecyclerView( prepareData( pendingListResponse.getOutput().get( 0 ).getBookinglist() ) );
+                        ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() ) );
+                    }
+                    else
+                    {
+                        recyclerView.setVisibility( View.GONE );
+                        noData.setVisibility( View.VISIBLE );
+                    }
+                }
+                else
+                {
+                    pendingListViewModel.pendingListRepository.errorResponse.observe( getActivity(), new Observer<String>() {
+                        @Override
+                        public void onChanged( String s )
+                        {
+                            Snackbar.make( getView(),s,Snackbar.LENGTH_LONG ).show();
+                        }
+                    } );
+                }
+            }
+        } );
+        pendingListViewModel.pendingListRepository.isLoading.observe( this, new Observer<Boolean>() {
+            @Override
+            public void onChanged( Boolean aBoolean )
+            {
+
+            }
+        } );
     }
 
     private List<PendingListModel> prepareData( List<PendingListResponse.Output.Bookinglist> pendingList )
@@ -119,7 +165,7 @@ public class PendingFragment extends Fragment
             }
         }
 
-        private PendingListAdapter(  List<PendingListModel> serviceList )
+        private PendingListAdapter( List<PendingListModel> serviceList )
         {
             this.serviceList = serviceList;
         }
@@ -137,36 +183,17 @@ public class PendingFragment extends Fragment
         {
             final PendingListModel model = serviceList.get( position );
             holder.itemBinding.setItemPendingList( model );
-            holder.itemBinding.setClickHandler( new EventHandlers() {
+            holder.itemBinding.setClickHandler( new EventHandlers()
+            {
                 @Override
                 public void OnItemClick( View view )
                 {
                     Intent intent = new Intent( getActivity(), StartTask.class );
-                    intent.putExtra( "service_id",model.getServiceId() );
-                    intent.putExtra( "status",model.getStatus() );
+                    intent.putExtra( "service_id", model.getServiceId() );
+                    intent.putExtra( "status", model.getStatus() );
                     startActivity( intent );
                 }
             } );
-            /*holder.itemBinding.setC( new EventHandlers() {
-                @Override
-                public void OnItemClick()
-                {
-                    startActivity( new Intent( getActivity(),StartTask.class ) );
-                }
-            } );*/
-            /*holder.itemBinding.setClickHandler( new EventHandlers() {
-                @Override
-                public void OngoingMenu( PendingListModel model, View v )
-                {
-                }
-
-                @Override
-                public void OnitemClick( PendingListModel model )
-                {
-                    startActivity( new Intent( getActivity(), StartTask.class ) );
-                }
-            } );*/
-
         }
 
         @Override

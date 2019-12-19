@@ -2,7 +2,7 @@ package com.poojaelectronics.technician.model;
 
 public class HistoryListModel
 {
-   private String service_id, customer_name, email, phone, address, category_name, service_type, brand_name, technician_name, date, time, remarks, unique_id, status, amount, complete_remarks, cancel_remarks, created_at, re_schedule, re_date, re_time;
+   private String service_id, customer_name,image_url, email, phone, address, category_name, service_type, brand_name, technician_name, date, time, remarks, unique_id, status, amount, complete_remarks, cancel_remarks, created_at, re_schedule, re_date, re_time;
 
     public String getService_id()
     {
@@ -22,6 +22,16 @@ public class HistoryListModel
     public void setCustomer_name( String customer_name )
     {
         this.customer_name = customer_name;
+    }
+
+    public String getImage_url()
+    {
+        return image_url;
+    }
+
+    public void setImage_url( String image_url )
+    {
+        this.image_url = image_url;
     }
 
     public String getEmail()

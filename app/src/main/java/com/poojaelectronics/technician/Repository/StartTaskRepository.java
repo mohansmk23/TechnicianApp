@@ -15,27 +15,17 @@ import retrofit2.Response;
 
 public class StartTaskRepository
 {
-    private static StartTaskRepository startTaskRepository;
     private Api api;
-    private MutableLiveData<StartTaskResponse> loginResponse = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
-    public MutableLiveData<StartTaskResponse> getLoginResponse()
-    {
-        return loginResponse;
-    }
-
-    public MutableLiveData<Boolean> getIsLoading()
-    {
-        return isLoading;
-    }
+    public MutableLiveData<StartTaskResponse> customerDetailsResponse = new MutableLiveData<>();
+    public MutableLiveData<String> errorResponse = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public StartTaskRepository()
     {
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData getCustomerDetails( HashMap<String, Object> body )
+    public void getCustomerDetails( HashMap<String, Object> body )
     {
         isLoading.setValue( true );
         api.customer_details( body ).enqueue( new Callback<StartTaskResponse>()
@@ -43,21 +33,25 @@ public class StartTaskRepository
             @Override
             public void onResponse( @NonNull Call<StartTaskResponse> call, @NonNull Response<StartTaskResponse> response )
             {
-                isLoading.postValue( false );
+                isLoading.setValue( false );
                 if( response.isSuccessful() )
                 {
-                    loginResponse.postValue( response.body() );
+                    customerDetailsResponse.postValue( response.body() );
+                }
+                else
+                {
+                    errorResponse.postValue( response.raw().code() + " " + response.raw().message() );
                 }
             }
 
             @Override
             public void onFailure( @NonNull Call<StartTaskResponse> call, @NonNull Throwable t )
             {
+                isLoading.setValue( false );
                 t.printStackTrace();
-                isLoading.postValue( false );
-                loginResponse.postValue( null );
+                customerDetailsResponse.postValue( null );
             }
+
         } );
-        return loginResponse;
     }
 }

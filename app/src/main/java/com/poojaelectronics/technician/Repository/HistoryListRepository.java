@@ -15,27 +15,18 @@ import retrofit2.Response;
 
 public class HistoryListRepository
 {
-    private static PendingListRepository pendingListRepository;
     private Api api;
-    private MutableLiveData<HistoryListResponse> pendingListResponse = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    public MutableLiveData<HistoryListResponse> pendingListResponse = new MutableLiveData<>();
+    public MutableLiveData<String> errorResponse = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public HistoryListRepository()
     {
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData<HistoryListResponse> getPendingListResponse()
-    {
-        return pendingListResponse;
-    }
 
-    public MutableLiveData<Boolean> getIsLoading()
-    {
-        return isLoading;
-    }
-
-    public MutableLiveData getPendingList( HashMap<String, Object> body )
+    public void getPendingList( HashMap<String, Object> body )
     {
         isLoading.setValue( true );
         api.history_list( body ).enqueue( new Callback<HistoryListResponse>()
@@ -48,6 +39,11 @@ public class HistoryListRepository
                 {
                     pendingListResponse.postValue( response.body() );
                 }
+                else
+                {
+                    errorResponse.postValue( response.raw().code() + " " + response.raw().code() );
+                }
+
             }
 
             @Override
@@ -58,6 +54,5 @@ public class HistoryListRepository
                 pendingListResponse.postValue( null );
             }
         } );
-        return pendingListResponse;
     }
 }

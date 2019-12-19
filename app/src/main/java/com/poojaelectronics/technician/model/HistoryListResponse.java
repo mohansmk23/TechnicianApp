@@ -71,6 +71,9 @@ public class HistoryListResponse
             @SerializedName( "customer_name" )
             @Expose
             private String customerName;
+            @SerializedName( "image_url" )
+            @Expose
+            private String imageUrl;
             @SerializedName( "email" )
             @Expose
             private String email;
@@ -147,6 +150,16 @@ public class HistoryListResponse
             public void setCustomerName( String customerName )
             {
                 this.customerName = customerName;
+            }
+
+            public String getImageUrl()
+            {
+                return imageUrl;
+            }
+
+            public void setImageUrl( String imageUrl )
+            {
+                this.imageUrl = imageUrl;
             }
 
             public String getEmail()

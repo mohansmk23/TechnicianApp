@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician.viewmodel;
+package com.poojaelectronics.technician.viewModel;
 
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,10 +18,9 @@ import java.util.HashMap;
 public class LoginViewModel extends ViewModel
 {
     private LoginModel loginModel ;
-    private LoginRepository loginRepository ;
+    public LoginRepository loginRepository ;
     public ObservableField<Integer> emailError = new ObservableField<>();
     public ObservableField<Integer> passwordError = new ObservableField<>();
-    private MutableLiveData loginresponse = new MutableLiveData<>();
 
     public void init()
     {
@@ -69,7 +68,7 @@ public class LoginViewModel extends ViewModel
             loginObject.put( "apimethod", "poojaapi" );
             loginObject.put( "username", loginModel.getUserName() );
             loginObject.put( "password", loginModel.getPassword() );
-            loginresponse = loginRepository.login( loginObject );
+            loginRepository.login( loginObject );
         }
         return false;
     }

@@ -15,19 +15,10 @@ import retrofit2.Response;
 
 public class LoginRepository
 {
-    private static LoginRepository loginRepository;
     private Api api;
     private MutableLiveData<LoginResponse> loginResponse = new MutableLiveData<>();
+    public MutableLiveData<String> errorResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
-    public static LoginRepository getInstance()
-    {
-        if( loginRepository == null )
-        {
-            loginRepository = new LoginRepository();
-        }
-        return loginRepository;
-    }
 
     public MutableLiveData<LoginResponse> getLoginResponse()
     {
@@ -57,6 +48,11 @@ public class LoginRepository
                 {
                     loginResponse.postValue( response.body() );
                 }
+                else
+                {
+                    errorResponse.postValue( response.raw().code() + " " + response.raw().code() );
+                }
+
             }
 
             @Override

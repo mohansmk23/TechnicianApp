@@ -36,13 +36,14 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.poojaelectronics.technician.BaseActivity;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.TrackerService;
+import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityStartTaskBinding;
 import com.poojaelectronics.technician.model.StartTaskModel;
 import com.poojaelectronics.technician.model.StartTaskResponse;
-import com.poojaelectronics.technician.viewmodel.StartTaskViewModel;
+import com.poojaelectronics.technician.viewModel.StartTaskViewModel;
 
 public class StartTask extends BaseActivity
 {
@@ -52,6 +53,7 @@ public class StartTask extends BaseActivity
     RelativeLayout rootLay;
     StartTaskModel startTaskModel;
     StartTaskViewModel startTaskViewModel;
+    Session session;
     boolean isAgree = false;
     int status = 0;
     FloatingActionButton floatingActionButton;
@@ -71,6 +73,7 @@ public class StartTask extends BaseActivity
         startTaskActivityClickHandler = new StartTaskActivityClickHandler( this );
         setupObservers();
         activityStartTaskBinding = DataBindingUtil.setContentView( this, R.layout.activity_start_task );
+        session = new Session( this );
         rootLay = findViewById( R.id.rootLay );
         cvPicked = findViewById( R.id.picked_card );
         tvStatus = findViewById( R.id.status );
@@ -78,50 +81,11 @@ public class StartTask extends BaseActivity
         direction = findViewById( R.id.direction );
         floatingActionButton = findViewById( R.id.fabAdminCall );
         startAnimation = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.blink );
-        if( getIntent().hasExtra( "status" ) )
-        {
-            if( getIntent().getExtras().get( "status" ).toString().equalsIgnoreCase( "Assigned" ) )
-            {
-                startTask.setText( R.string.pickup_task );
-                cvPicked.setVisibility( View.GONE );
-                tittle = getString( R.string.pickup_tittle );
-                status = 0;
-            }
-            else if( getIntent().getExtras().get( "status" ).toString().equalsIgnoreCase( "Picked" ) )
-            {
-                startTask.setText( R.string.reached );
-                cvPicked.setVisibility( View.VISIBLE );
-                tvStatus.setText( R.string.job_picked_up );
-                cvPicked.startAnimation( startAnimation );
-                status = 1;
-                tittle = getString( R.string.reached_tittle );
-            }
-            else if( getIntent().getExtras().get( "status" ).toString().equalsIgnoreCase( "Reached" ) )
-            {
-                startTask.setText( R.string.start_task );
-                cvPicked.setVisibility( View.VISIBLE );
-                tvStatus.setText( R.string.location_reached );
-                tittle = getString( R.string.start_tittle );
-                status = 2;
-                cvPicked.startAnimation( startAnimation );
-            }
-            else if( getIntent().getExtras().get( "status" ).toString().equalsIgnoreCase( "Start" ) )
-            {
-                startTask.setText( R.string.complete_task );
-                cvPicked.setVisibility( View.VISIBLE );
-                tvStatus.setText( R.string.task_started );
-                cvPicked.startAnimation( startAnimation );
-                status = 3;
-                tittle = getString( R.string.complete_tittle );
-            }
-        }
         direction.setOnClickListener( new View.OnClickListener()
         {
             @Override
             public void onClick( View view )
             {
-                /*Intent intent = new Intent( android.content.Intent.ACTION_VIEW, Uri.parse( "http://maps.google.com/maps?saddr=13.0542065,80.2645036&daddr=13.012101,80.229734" ) );
-                startActivity( intent );*/
                 if( !startTaskModel.getLat().isEmpty() && !startTaskModel.getLng().isEmpty() )
                 {
                     Uri navigation = Uri.parse( "google.navigation:q=" + "13.012101" + "," + "80.229734" );
@@ -129,7 +93,6 @@ public class StartTask extends BaseActivity
                     navigationIntent.setPackage( "com.google.android.apps.maps" );
                     startActivity( navigationIntent );
                 }
-                //                startActivity( new Intent( getApplicationContext(), MapsActivity.class ) );
             }
         } );
         floatingActionButton.setOnClickListener( new View.OnClickListener()
@@ -184,7 +147,7 @@ public class StartTask extends BaseActivity
                                     startTaskViewModel.picked( serviceId, "start" );
                                     break;
                                 case 3:
-                                    startActivity( new Intent( StartTask.this, CompleteTask.class ).putExtra( "serviceId",serviceId ) );
+                                    startActivity( new Intent( StartTask.this, CompleteTask.class ).putExtra( "serviceId", serviceId ) );
                                     break;
                             }
                         }
@@ -249,182 +212,241 @@ public class StartTask extends BaseActivity
         }
     }
 
-    //Note: Obserser the response form server to view customer details
+    //Note: Observer the response form server to view customer details
     public void setupObservers()
     {
-        startTaskViewModel.getStartTaskResponse().observe( this, new Observer<StartTaskResponse>()
+        startTaskViewModel.startTaskRepository.customerDetailsResponse.observe( this, new Observer<StartTaskResponse>()
         {
             @Override
             public void onChanged( StartTaskResponse startTaskResponse )
             {
-                if( getSupportActionBar() != null )
+                if( startTaskResponse != null )
                 {
-                    getSupportActionBar().setTitle( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
-                }
-                startTaskModel = new StartTaskModel();
-                startTaskModel.setCustomer_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCustomerName() );
-                startTaskModel.setAddress( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAddress() );
-                startTaskModel.setPhone( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getPhone() );
-                startTaskModel.setEmail( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getEmail() );
-                startTaskModel.setAdmin_mobile_number( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAdminMobileNumber() );
-                startTaskModel.setCategory_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCategoryName() );
-                startTaskModel.setService_type( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
-                startTaskModel.setBrand_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getBrandName() );
-                startTaskModel.setTechnician_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTechnicianName() );
-                startTaskModel.setDate( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getDate() );
-                startTaskModel.setTime( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTime() );
-                startTaskModel.setRemarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getRemarks() );
-                startTaskModel.setStatus( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getStatus() );
-                startTaskModel.setCancel_remarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCancelRemarks() );
-                startTaskModel.setCreated_at( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCreatedAt() );
-                startTaskModel.setRe_schedule( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReSchedule() );
-                startTaskModel.setRe_date( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReDate() );
-                startTaskModel.setRe_time( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReTime() );
-                startTaskModel.setLat( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLat() );
-                startTaskModel.setLng( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLng() );
-                if( !startTaskModel.getAdmin_mobile_number().isEmpty() )
-                {
-                    floatingActionButton.setVisibility( View.VISIBLE );
-                }
-                if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
-                {
-                    startTask.setText( R.string.pickup_task );
-                    cvPicked.setVisibility( View.GONE );
-                    tittle = getString( R.string.pickup_tittle );
-                    status = 0;
-                }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
-                {
-                    startTask.setText( R.string.reached );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.job_picked_up );
-                    cvPicked.startAnimation( startAnimation );
-                    status = 1;
-                    LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
-                    if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                    if( getSupportActionBar() != null )
                     {
-                        Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                        getSupportActionBar().setTitle( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
                     }
-                    int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
-                    if( permission == PackageManager.PERMISSION_GRANTED )
+                    startTaskModel = new StartTaskModel();
+                    startTaskModel.setCustomer_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCustomerName() );
+                    startTaskModel.setAddress( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAddress() );
+                    startTaskModel.setPhone( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getPhone() );
+                    startTaskModel.setEmail( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getEmail() );
+                    startTaskModel.setAdmin_mobile_number( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAdminMobileNumber() );
+                    startTaskModel.setCategory_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCategoryName() );
+                    startTaskModel.setService_type( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
+                    startTaskModel.setBrand_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getBrandName() );
+                    startTaskModel.setTechnician_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTechnicianName() );
+                    startTaskModel.setDate( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getDate() );
+                    startTaskModel.setTime( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTime() );
+                    startTaskModel.setRemarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getRemarks() );
+                    startTaskModel.setStatus( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getStatus() );
+                    startTaskModel.setCancel_remarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCancelRemarks() );
+                    startTaskModel.setCreated_at( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCreatedAt() );
+                    startTaskModel.setRe_schedule( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReSchedule() );
+                    startTaskModel.setRe_date( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReDate() );
+                    startTaskModel.setRe_time( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReTime() );
+                    startTaskModel.setLat( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLat() );
+                    startTaskModel.setLng( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLng() );
+                    if( !startTaskModel.getAdmin_mobile_number().isEmpty() )
                     {
-                        startTrackerService();
+                        floatingActionButton.setVisibility( View.VISIBLE );
                     }
-                    else
+                    if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
                     {
-                        ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
+                        startTask.setText( R.string.pickup_task );
+                        cvPicked.setVisibility( View.GONE );
+                        tittle = getString( R.string.pickup_tittle );
+                        status = 0;
                     }
-                    tittle = getString( R.string.reached_tittle );
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
+                    {
+                        startTask.setText( R.string.reached );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.job_picked_up );
+                        getSupportActionBar().hide();
+                        cvPicked.startAnimation( startAnimation );
+                        status = 1;
+                        LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
+                        if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                        {
+                            Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                        }
+                        int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
+                        if( permission == PackageManager.PERMISSION_GRANTED )
+                        {
+                            startTrackerService();
+                        }
+                        else
+                        {
+                            ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
+                        }
+                        tittle = getString( R.string.reached_tittle );
+                    }
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
+                    {
+                        startTask.setText( R.string.start_task );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.location_reached );
+                        tittle = getString( R.string.start_tittle );
+                        status = 2;
+                        cvPicked.startAnimation( startAnimation );
+                        stopTrackerService();
+                    }
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
+                    {
+                        startTask.setText( R.string.complete_task );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.task_started );
+                        cvPicked.startAnimation( startAnimation );
+                        status = 3;
+                        tittle = getString( R.string.complete_tittle );
+                    }
+                    if( status > 0 )
+                    {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled( false );
+                        session.setpicked( serviceId );
+                    }
+                    activityStartTaskBinding.setCustomerDetails( startTaskModel );
+                    activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
                 }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
+                else
                 {
-                    startTask.setText( R.string.start_task );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.location_reached );
-                    tittle = getString( R.string.start_tittle );
-                    status = 2;
-                    cvPicked.startAnimation( startAnimation );
-                    stopTrackerService();
+                    startTaskViewModel.startTaskRepository.errorResponse.observe( StartTask.this, new Observer<String>()
+                    {
+                        @Override
+                        public void onChanged( String s )
+                        {
+                            Snackbar.make( rootLay, s, Snackbar.LENGTH_LONG ).show();
+                        }
+                    } );
                 }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
-                {
-                    startTask.setText( R.string.complete_task );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.task_started );
-                    cvPicked.startAnimation( startAnimation );
-                    status = 3;
-                    tittle = getString( R.string.complete_tittle );
-                }
-                activityStartTaskBinding.setCustomerDetails( startTaskModel );
-                activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
             }
         } );
-        startTaskViewModel.technicianServiceStatusRepository.getLoginResponse().observe( this, new Observer<StartTaskResponse>()
+        startTaskViewModel.startTaskRepository.isLoading.observe( this, new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged( Boolean aBoolean )
+            {
+            }
+        } );
+        startTaskViewModel.technicianServiceStatusRepository.technicianServiceResponse.observe( this, new Observer<StartTaskResponse>()
         {
             @Override
             public void onChanged( StartTaskResponse startTaskResponse )
             {
-                if( getSupportActionBar() != null )
+                if( startTaskResponse != null )
                 {
-                    getSupportActionBar().setTitle( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
-                }
-                startTaskModel = new StartTaskModel();
-                startTaskModel.setCustomer_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCustomerName() );
-                startTaskModel.setAddress( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAddress() );
-                startTaskModel.setPhone( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getPhone() );
-                startTaskModel.setEmail( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getEmail() );
-                startTaskModel.setAdmin_mobile_number( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAdminMobileNumber() );
-                startTaskModel.setCategory_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCategoryName() );
-                startTaskModel.setService_type( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
-                startTaskModel.setBrand_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getBrandName() );
-                startTaskModel.setTechnician_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTechnicianName() );
-                startTaskModel.setDate( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getDate() );
-                startTaskModel.setTime( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTime() );
-                startTaskModel.setRemarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getRemarks() );
-                startTaskModel.setStatus( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getStatus() );
-                startTaskModel.setCancel_remarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCancelRemarks() );
-                startTaskModel.setCreated_at( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCreatedAt() );
-                startTaskModel.setRe_schedule( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReSchedule() );
-                startTaskModel.setRe_date( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReDate() );
-                startTaskModel.setRe_time( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReTime() );
-                startTaskModel.setLat( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLat() );
-                startTaskModel.setLng( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLng() );
-                if( !startTaskModel.getAdmin_mobile_number().isEmpty() )
-                {
-                    floatingActionButton.setVisibility( View.VISIBLE );
-                }
-                if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
-                {
-                    startTask.setText( R.string.pickup_task );
-                    cvPicked.setVisibility( View.GONE );
-                    tittle = getString( R.string.pickup_tittle );
-                    status = 0;
-                }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
-                {
-                    startTask.setText( R.string.reached );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.job_picked_up );
-                    cvPicked.startAnimation( startAnimation );
-                    status = 1;
-                    LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
-                    if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                    if( getSupportActionBar() != null )
                     {
-                        Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                        getSupportActionBar().setTitle( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
                     }
-                    int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
-                    if( permission == PackageManager.PERMISSION_GRANTED )
+                    startTaskModel = new StartTaskModel();
+                    startTaskModel.setCustomer_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCustomerName() );
+                    startTaskModel.setAddress( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAddress() );
+                    startTaskModel.setPhone( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getPhone() );
+                    startTaskModel.setEmail( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getEmail() );
+                    startTaskModel.setAdmin_mobile_number( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getAdminMobileNumber() );
+                    startTaskModel.setCategory_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCategoryName() );
+                    startTaskModel.setService_type( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getServiceType() );
+                    startTaskModel.setBrand_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getBrandName() );
+                    startTaskModel.setTechnician_name( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTechnicianName() );
+                    startTaskModel.setDate( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getDate() );
+                    startTaskModel.setTime( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTime() );
+                    startTaskModel.setRemarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getRemarks() );
+                    startTaskModel.setStatus( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getStatus() );
+                    startTaskModel.setCancel_remarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCancelRemarks() );
+                    startTaskModel.setCreated_at( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCreatedAt() );
+                    startTaskModel.setRe_schedule( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReSchedule() );
+                    startTaskModel.setRe_date( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReDate() );
+                    startTaskModel.setRe_time( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getReTime() );
+                    startTaskModel.setLat( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLat() );
+                    startTaskModel.setLng( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getLng() );
+                    if( !startTaskModel.getAdmin_mobile_number().isEmpty() )
                     {
-                        startTrackerService();
+                        floatingActionButton.setVisibility( View.VISIBLE );
                     }
-                    else
+                    if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
                     {
-                        ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
+                        startTask.setText( R.string.pickup_task );
+                        cvPicked.setVisibility( View.GONE );
+                        tittle = getString( R.string.pickup_tittle );
+                        status = 0;
                     }
-                    tittle = getString( R.string.reached_tittle );
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
+                    {
+                        startTask.setText( R.string.reached );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.job_picked_up );
+                        cvPicked.startAnimation( startAnimation );
+                        status = 1;
+                        LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
+                        if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                        {
+                            Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                        }
+                        int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
+                        if( permission == PackageManager.PERMISSION_GRANTED )
+                        {
+                            startTrackerService();
+                        }
+                        else
+                        {
+                            ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
+                        }
+                        tittle = getString( R.string.reached_tittle );
+                    }
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
+                    {
+                        startTask.setText( R.string.start_task );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.location_reached );
+                        tittle = getString( R.string.start_tittle );
+                        status = 2;
+                        stopTrackerService();
+                        cvPicked.startAnimation( startAnimation );
+                    }
+                    else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
+                    {
+                        startTask.setText( R.string.complete_task );
+                        cvPicked.setVisibility( View.VISIBLE );
+                        tvStatus.setText( R.string.task_started );
+                        cvPicked.startAnimation( startAnimation );
+                        status = 3;
+                        tittle = getString( R.string.complete_tittle );
+                    }
+                    if( status > 0 )
+                    {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled( false );
+                        session.setpicked( serviceId );
+                    }
+                    activityStartTaskBinding.setCustomerDetails( startTaskModel );
+                    activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
                 }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
+                else
                 {
-                    startTask.setText( R.string.start_task );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.location_reached );
-                    tittle = getString( R.string.start_tittle );
-                    status = 2;
-                    stopTrackerService();
-                    cvPicked.startAnimation( startAnimation );
+                    startTaskViewModel.technicianServiceStatusRepository.errorResponse.observe( StartTask.this, new Observer<String>()
+                    {
+                        @Override
+                        public void onChanged( String s )
+                        {
+                            Snackbar.make( rootLay, s, Snackbar.LENGTH_LONG ).show();
+                        }
+                    } );
                 }
-                else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
-                {
-                    startTask.setText( R.string.complete_task );
-                    cvPicked.setVisibility( View.VISIBLE );
-                    tvStatus.setText( R.string.task_started );
-                    cvPicked.startAnimation( startAnimation );
-                    status = 3;
-                    tittle = getString( R.string.complete_tittle );
-                }
-                activityStartTaskBinding.setCustomerDetails( startTaskModel );
-                activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
             }
         } );
+        startTaskViewModel.technicianServiceStatusRepository.isLoading.observe( this, new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged( Boolean aBoolean )
+            {
+            }
+        } );
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if( status < 1 ) super.onBackPressed();
     }
 }

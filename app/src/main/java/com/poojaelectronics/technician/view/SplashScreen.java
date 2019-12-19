@@ -1,11 +1,8 @@
-package com.poojaelectronics.technician.activity;
+package com.poojaelectronics.technician.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,10 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.Retrofit.Session;
-import com.poojaelectronics.technician.view.LoginActivity;
-
-import java.util.prefs.Preferences;
+import com.poojaelectronics.technician.common.Session;
 
 public class SplashScreen extends AppCompatActivity
 {
@@ -36,7 +30,7 @@ public class SplashScreen extends AppCompatActivity
         setContentView( R.layout.activity_splash_screen );
         Window w = getWindow();
         w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
-        session = new Session(this);
+        session = new Session( this );
         if( getSupportActionBar() != null ) getSupportActionBar().hide();
         final AppCompatImageView btnOvershoot = findViewById( R.id.ivLogo );
         card = findViewById( R.id.center_card );
@@ -67,12 +61,20 @@ public class SplashScreen extends AppCompatActivity
         }
         else
         {
-            Intent intent = new Intent( this, ServiceList.class );
-            intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X, revealX );
-            intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY );
-            intent.putExtra( "form_splash", "1" );
-            ActivityCompat.startActivity( this, intent, options.toBundle() );
+            if( session.getpicked().isEmpty() )
+            {
+                Intent intent = new Intent( this, ServiceList.class );
+                intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X, revealX );
+                intent.putExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY );
+                intent.putExtra( "form_splash", "1" );
+                ActivityCompat.startActivity( this, intent, options.toBundle() );
+            }
+            else
+            {
+                Intent intent = new Intent( this, StartTask.class );
+                intent.putExtra( "service_id", session.getpicked() );
+                ActivityCompat.startActivity( this, intent, options.toBundle() );
+            }
         }
-
     }
 }

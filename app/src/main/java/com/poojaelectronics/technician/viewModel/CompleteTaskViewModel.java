@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician.viewmodel;
+package com.poojaelectronics.technician.viewModel;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
@@ -21,10 +21,10 @@ public class CompleteTaskViewModel extends ViewModel
         {
             amountError.set( R.string.error_empty_username );
         }
-        *//*else if( !completeTaskModel.getSigned() )
+        else if( !completeTaskModel.getSigned() )
         {
             signError.set( R.string.error_empty_username );
-        }*//*
+        }
         else
         {
         }*/

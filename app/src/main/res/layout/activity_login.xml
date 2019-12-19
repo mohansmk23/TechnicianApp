@@ -8,11 +8,8 @@
 
         <variable
             name="login"
-            type="com.poojaelectronics.technician.viewmodel.LoginViewModel" />
+            type="com.poojaelectronics.technician.viewModel.LoginViewModel" />
 
-        <variable
-            name="clickHandler"
-            type="com.poojaelectronics.technician.view.LoginActivity.LoginActivityClickHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,14 +25,15 @@
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_42dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="60dp"
@@ -47,16 +45,16 @@
                     android:layout_height="80dp"
                     android:src="@drawable/pe_logo_with_shadow" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:text="@string/technician_login"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_xxlarge"
+                    android:textSize="@dimen/text_size_xx_large"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8dp"
@@ -68,7 +66,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="60dp"
+                    android:fitsSystemWindows="true"
                     android:clipToPadding="false"
                     app:cardUseCompatPadding="true">
 
@@ -78,28 +77,14 @@
                         android:orientation="vertical"
                         android:paddingVertical="@dimen/margin_24dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/login"
-                            android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_size_medium" />
-
-                        <!--<com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:paddingHorizontal="@dimen/margin_10dp">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                        </com.google.android.material.textfield.TextInputLayout>-->
+                            android:textSize="@dimen/text_size_medium"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -110,13 +95,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etUserName"
-                                android:backgroundTint="@android:color/transparent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="18dp"
                                 android:layout_marginEnd="16dp"
+                                android:backgroundTint="@android:color/transparent"
                                 android:drawableStart="@drawable/ic_user"
                                 android:drawablePadding="4dp"
                                 android:drawableTint="@color/themeColor2"
@@ -141,13 +126,13 @@
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/etPassword"
-                                android:backgroundTint="@android:color/transparent"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginTop="18dp"
                                 android:layout_marginEnd="16dp"
+                                android:backgroundTint="@android:color/transparent"
                                 android:drawableStart="@drawable/icon_key"
                                 android:drawablePadding="4dp"
                                 android:drawableTint="@color/themeColor2"
@@ -173,9 +158,13 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{()->login.passwordEditorAction()}"
                     android:text="@string/sign_in"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
@@ -191,13 +180,15 @@
             android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
+            android:visibility="gone"
             android:scaleType="fitXY"
             android:src="@drawable/bottom_overlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

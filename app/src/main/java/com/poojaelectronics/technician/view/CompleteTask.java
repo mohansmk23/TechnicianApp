@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RatingBar;
 
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,12 +14,12 @@ import androidx.lifecycle.ViewModelProviders;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.poojaelectronics.technician.BaseActivity;
+import com.poojaelectronics.technician.common.BaseActivity;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.activity.ServiceList;
+import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityCompleteTaskBinding;
 import com.poojaelectronics.technician.model.CompleteResponse;
-import com.poojaelectronics.technician.viewmodel.CompleteTaskViewModel;
+import com.poojaelectronics.technician.viewModel.CompleteTaskViewModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +30,7 @@ public class CompleteTask extends BaseActivity
     CompleteTaskViewModel completeTaskViewModel;
     ActivityCompleteTaskBinding activityCompleteTaskBinding;
     MaterialButton clear, conform, completeTask;
+    Session session;
     SignaturePad signaturePad;
     boolean isSigned = false;
     OutputStream os;
@@ -44,6 +44,7 @@ public class CompleteTask extends BaseActivity
         super.onCreate( savedInstanceState );
         completeTaskViewModel = ViewModelProviders.of( this ).get( CompleteTaskViewModel.class );
         activityCompleteTaskBinding = DataBindingUtil.setContentView( this, R.layout.activity_complete_task );
+        session = new Session( this );
         activityCompleteTaskBinding.setViewModel( completeTaskViewModel );
         filesDir = getApplicationContext().getFilesDir();
         imageFile = new File( filesDir, "customerSign" + ".jpg" );
@@ -111,7 +112,7 @@ public class CompleteTask extends BaseActivity
                     {
                         Log.e( getClass().getSimpleName(), "Error writing bitmap", e );
                     }
-                    completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), getIntent().getExtras().get( "serviceId" ).toString(),ratingBar.getRating(), imageFile );
+                    completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), getIntent().getExtras().get( "serviceId" ).toString(), ratingBar.getRating(), imageFile );
                     completeTaskViewModel.completeTaskRepository.getCompleteTaskResponse().observe( CompleteTask.this, new Observer<CompleteResponse>()
                     {
                         @Override
@@ -120,6 +121,7 @@ public class CompleteTask extends BaseActivity
                             Snackbar.make( v, completeResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
                             if( completeResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
                             {
+                                session.setpicked( "" );
                                 startActivity( new Intent( CompleteTask.this, ServiceList.class ) );
                             }
                         }

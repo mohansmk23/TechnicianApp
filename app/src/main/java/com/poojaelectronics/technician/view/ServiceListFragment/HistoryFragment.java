@@ -7,12 +7,13 @@
  *  *
  */
 
-package com.poojaelectronics.technician.ServiceListFragment;
+package com.poojaelectronics.technician.view.ServiceListFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,14 +23,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.Retrofit.Session;
-import com.poojaelectronics.technician.activity.UpdateBadgeCount;
+import com.poojaelectronics.technician.common.Session;
+import com.poojaelectronics.technician.common.UpdateBadgeCount;
 import com.poojaelectronics.technician.databinding.ItemHistoryBinding;
 import com.poojaelectronics.technician.model.HistoryListModel;
 import com.poojaelectronics.technician.model.HistoryListResponse;
-import com.poojaelectronics.technician.viewmodel.HistoryListViewModel;
+import com.poojaelectronics.technician.viewModel.HistoryListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,9 @@ import java.util.Objects;
 public class HistoryFragment extends Fragment
 {
     private RecyclerView recyclerView;
+    private TextView noData;
+    private HistoryListViewModel historyListViewModel;
+    private SwipeRefreshLayout pullRefresh;
     private Session session;
 
     @Nullable
@@ -47,25 +53,66 @@ public class HistoryFragment extends Fragment
         View historyFragment = inflater.inflate( R.layout.fragment_history, container, false );
         session = new Session( getActivity() );
         recyclerView = historyFragment.findViewById( R.id.recyclerView );
-        HistoryListViewModel historyListViewModel = ViewModelProviders.of( Objects.requireNonNull( getActivity() ) ).get( HistoryListViewModel.class );
+        noData = historyFragment.findViewById( R.id.noData );
+        pullRefresh = historyFragment.findViewById( R.id.refresh );
+        historyListViewModel = ViewModelProviders.of( Objects.requireNonNull( getActivity() ) ).get( HistoryListViewModel.class );
         historyListViewModel.init( session.getTechId() );
-        historyListViewModel.getMvdPendingListResponse().observe( this, new Observer<HistoryListResponse>()
+        setObserver();
+        pullRefresh.setColorSchemeResources( R.color.themeColor1, R.color.themeColor2, R.color.colorPrimary );
+        pullRefresh.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                historyListViewModel.init( session.getTechId() );
+            }
+        } );
+        return historyFragment;
+    }
+
+    private void setObserver()
+    {
+        historyListViewModel.historyListRepository.pendingListResponse.observe( this, new Observer<HistoryListResponse>()
         {
             @Override
             public void onChanged( HistoryListResponse loginResponse )
             {
+                pullRefresh.setRefreshing( false );
                 if( loginResponse != null )
                 {
                     if( loginResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
                     {
                         recyclerView.setVisibility( View.VISIBLE );
+                        noData.setVisibility( View.GONE );
                         setUpRecyclerView( prepareData( loginResponse.getOutput().get( 0 ).getCompletedList() ) );
-                        ( ( UpdateBadgeCount ) getActivity() ).updateHistoryBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getCompletedList().size() ));
+                        ( ( UpdateBadgeCount ) getActivity() ).updateHistoryBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getCompletedList().size() ) );
                     }
+                    else
+                    {
+                        recyclerView.setVisibility( View.GONE );
+                        noData.setVisibility( View.VISIBLE );
+                    }
+                }
+                else
+                {
+                    historyListViewModel.historyListRepository.errorResponse.observe( getActivity(), new Observer<String>() {
+                        @Override
+                        public void onChanged( String s )
+                        {
+                            Snackbar.make( getView(), s, Snackbar.LENGTH_LONG ).show();
+                        }
+                    } );
+
                 }
             }
         } );
-        return historyFragment;
+        historyListViewModel.historyListRepository.isLoading.observe( this, new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged( Boolean aBoolean )
+            {
+            }
+        } );
     }
 
     private List<HistoryListModel> prepareData( List<HistoryListResponse.Output.CompletedList> pendingList )
@@ -81,7 +128,7 @@ public class HistoryFragment extends Fragment
             pendingListModel.setDate( pendingList.get( i ).getDate() );
             pendingListModel.setPhone( pendingList.get( i ).getPhone() );
             pendingListModel.setCustomer_name( pendingList.get( i ).getCustomerName() );
-            //            pendingListModel.setImage_url( pendingList.get( i ).getImageUrl() );
+            pendingListModel.setImage_url( pendingList.get( i ).getImageUrl() );
             pendingListModel.setTime( pendingList.get( i ).getTime() );
             pendingListModel.setAmount( pendingList.get( i ).getAmount() );
             pendingListModel.setCancel_remarks( pendingList.get( i ).getCancelRemarks() );

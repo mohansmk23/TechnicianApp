@@ -17,7 +17,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/cardview_radius"
+            app:cardCornerRadius="@dimen/card_view_radius"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -56,7 +56,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
                                 android:background="@drawable/et_border"
-                                android:backgroundTint="@color/lightgreen"
+                                android:backgroundTint="@color/light_green"
                                 android:drawableStart="@drawable/icon_micro_tick"
                                 android:drawablePadding="4dp"
                                 android:gravity="center"
@@ -118,6 +118,7 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="0dp"
+                        list_history_image="@{historyItemList.image_url}"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:src="@drawable/dash_ac" />
@@ -144,7 +145,7 @@
                         android:gravity="center_vertical"
                         android:paddingVertical="4dp"
                         android:text="@{historyItemList.amount}"
-                        android:textColor="@color/darkgrey"
+                        android:textColor="@color/dark_grey"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 

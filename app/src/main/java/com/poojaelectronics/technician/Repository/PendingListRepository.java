@@ -15,27 +15,17 @@ import retrofit2.Response;
 
 public class PendingListRepository
 {
-    private static PendingListRepository pendingListRepository;
     private Api api;
-    private MutableLiveData<PendingListResponse> pendingListResponse = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    public MutableLiveData<PendingListResponse> pendingListResponse = new MutableLiveData<>();
+    public MutableLiveData<String> errorResponse = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public PendingListRepository()
     {
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData<PendingListResponse> getPendingListResponse()
-    {
-        return pendingListResponse;
-    }
-
-    public MutableLiveData<Boolean> getIsLoading()
-    {
-        return isLoading;
-    }
-
-    public MutableLiveData getPendingList( HashMap<String, Object> body )
+    public void getPendingList( HashMap<String, Object> body )
     {
         isLoading.setValue( true );
         api.pending_list( body ).enqueue( new Callback<PendingListResponse>()
@@ -48,16 +38,18 @@ public class PendingListRepository
                 {
                     pendingListResponse.postValue( response.body() );
                 }
+                else
+                {
+                    errorResponse.postValue( response.raw().code() + " " + response.raw().message() );
+                }
             }
 
             @Override
             public void onFailure( @NonNull Call<PendingListResponse> call, @NonNull Throwable t )
             {
-                t.printStackTrace();
                 isLoading.postValue( false );
                 pendingListResponse.postValue( null );
             }
         } );
-        return pendingListResponse;
     }
 }

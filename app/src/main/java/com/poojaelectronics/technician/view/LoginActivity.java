@@ -11,15 +11,12 @@ package com.poojaelectronics.technician.view;
 
 import android.animation.Animator;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,22 +27,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.Retrofit.Session;
-import com.poojaelectronics.technician.activity.ServiceList;
+import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
 import com.poojaelectronics.technician.model.LoginResponse;
-import com.poojaelectronics.technician.viewmodel.LoginViewModel;
+import com.poojaelectronics.technician.viewModel.LoginViewModel;
 
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity
 {
-    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
-    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X", EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
     View rootLayout;
     boolean doubleBackToExitPressedOnce = false;
-    private int revealX;
-    private int revealY;
+    private int revealX, revealY;
     LoginViewModel loginViewModel;
     ProgressDialog pDialog;
     Session session;
@@ -54,10 +48,10 @@ public class LoginActivity extends AppCompatActivity
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-        pDialog = new ProgressDialog( LoginActivity.this );
+        pDialog = new ProgressDialog( this );
         pDialog.setTitle( "Logging in" );
         pDialog.setMessage( "Please wait..." );
-        session = new Session(this);
+        session = new Session( this );
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView( this, R.layout.activity_login );
         loginViewModel = ViewModelProviders.of( this ).get( LoginViewModel.class );
         if( savedInstanceState == null )
@@ -65,10 +59,7 @@ public class LoginActivity extends AppCompatActivity
             loginViewModel.init();
         }
         activityLoginBinding.setLogin( loginViewModel );
-        activityLoginBinding.setClickHandler( new LoginActivityClickHandler(this) );
         Objects.requireNonNull( getSupportActionBar() ).hide();
-        Window w = getWindow();
-        w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
         final Intent intent = getIntent();
         rootLayout = findViewById( R.id.rootLay );
         setupObservers();
@@ -107,22 +98,6 @@ public class LoginActivity extends AppCompatActivity
         circularReveal.start();
     }
 
-    public class LoginActivityClickHandler extends LoginActivity
-    {
-        Context context;
-
-        private LoginActivityClickHandler( Context context )
-        {
-            this.context = context;
-        }
-
-        public void onSignInClicked( View view )
-        {
-            loginViewModel.passwordEditorAction();
-            Snackbar.make( view, "Sign in....", Snackbar.LENGTH_LONG );
-        }
-    }
-
     public void setupObservers()
     {
         LiveData<LoginResponse> loginResponseLiveData = loginViewModel.getLoginResponse();
@@ -147,7 +122,14 @@ public class LoginActivity extends AppCompatActivity
                 }
                 else
                 {
-                    Snackbar.make( rootLayout, "Server Busy.....!", Snackbar.LENGTH_LONG ).show();
+                    loginViewModel.loginRepository.errorResponse.observe( LoginActivity.this, new Observer<String>()
+                    {
+                        @Override
+                        public void onChanged( String s )
+                        {
+                            Snackbar.make( rootLayout, s, Snackbar.LENGTH_LONG ).show();
+                        }
+                    } );
                 }
             }
         } );

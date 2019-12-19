@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician.activity;
+package com.poojaelectronics.technician.common;
 
 import androidx.cardview.widget.CardView;
 
@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.poojaelectronics.technician.BaseActivity;
 import com.poojaelectronics.technician.MapsActivity;
 import com.poojaelectronics.technician.R;
 

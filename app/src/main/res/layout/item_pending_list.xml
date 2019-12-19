@@ -9,7 +9,7 @@
 
         <variable
             name="clickHandler"
-            type="com.poojaelectronics.technician.activity.EventHandlers" />
+            type="com.poojaelectronics.technician.common.EventHandlers" />
 
     </data>
 
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            app:cardCornerRadius="@dimen/cardview_radius"
+            app:cardCornerRadius="@dimen/card_view_radius"
             android:onClick="@{clickHandler::OnItemClick}"
             app:cardUseCompatPadding="true">
 
@@ -37,6 +37,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="0dp"
+                    list_image="@{itemPendingList.image_url}"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:paddingVertical="@dimen/margin_16dp"
@@ -44,7 +45,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_16dp"
                     android:layout_weight="7"
                     android:orientation="vertical">

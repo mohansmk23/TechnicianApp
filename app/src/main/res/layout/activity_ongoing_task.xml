@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp"
-                app:cardCornerRadius="@dimen/cardview_radius">
+                app:cardCornerRadius="@dimen/card_view_radius">
 
 
 
@@ -62,7 +62,7 @@
                 android:layout_marginTop="16dp"
                 app:cardUseCompatPadding="true"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/cardview_radius">
+                app:cardCornerRadius="@dimen/card_view_radius">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     android:layout_gravity="top"
                     android:background="@color/themeColor2"
                     android:paddingLeft="@dimen/margin_16dp"
-                    android:paddingVertical="@dimen/cardview_header_padding"
+                    android:paddingVertical="@dimen/card_view_header_padding"
                     android:text="Customer Details"
                     android:textColor="@color/white" />
 
@@ -195,7 +195,7 @@
                 android:layout_marginTop="16dp"
                 app:cardUseCompatPadding="true"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/cardview_radius">
+                app:cardCornerRadius="@dimen/card_view_radius">
 
 
                 <TextView
@@ -205,7 +205,7 @@
                     android:background="@color/themeColor2"
                     android:paddingLeft="@dimen/margin_16dp"
                     android:text="Brand"
-                    android:paddingVertical="@dimen/cardview_header_padding"
+                    android:paddingVertical="@dimen/card_view_header_padding"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -213,7 +213,7 @@
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="@dimen/margin_16dp"
                     android:gravity="center|left"
-                    android:layout_marginTop="@dimen/cardview_content_margin_top"
+                    android:layout_marginTop="@dimen/card_view_content_margin_top"
                     android:text="WhirlPool"
                     android:textColor="@color/black" />
 
@@ -226,7 +226,7 @@
                 android:layout_marginTop="16dp"
                 app:cardUseCompatPadding="true"
                 android:clipToPadding="false"
-                app:cardCornerRadius="@dimen/cardview_radius">
+                app:cardCornerRadius="@dimen/card_view_radius">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -235,7 +235,7 @@
                     android:background="@color/themeColor2"
                     android:paddingLeft="@dimen/margin_16dp"
                     android:text="Service Type"
-                    android:paddingVertical="@dimen/cardview_header_padding"
+                    android:paddingVertical="@dimen/card_view_header_padding"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -243,7 +243,7 @@
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="@dimen/margin_16dp"
                     android:gravity="center|left"
-                    android:layout_marginTop="@dimen/cardview_content_margin_top"
+                    android:layout_marginTop="@dimen/card_view_content_margin_top"
                     android:text="Service "
                     android:textColor="@color/black" />
 
@@ -256,7 +256,7 @@
                 app:cardUseCompatPadding="true"
                 android:clipToPadding="false"
                 android:layout_marginTop="@dimen/margin_16dp"
-                app:cardCornerRadius="@dimen/cardview_radius">
+                app:cardCornerRadius="@dimen/card_view_radius">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -264,7 +264,7 @@
                     android:layout_gravity="top"
                     android:background="@color/themeColor2"
                     android:paddingLeft="@dimen/margin_16dp"
-                    android:paddingVertical="@dimen/cardview_header_padding"
+                    android:paddingVertical="@dimen/card_view_header_padding"
                     android:text="More details"
                     android:textColor="@color/white" />
 
@@ -274,7 +274,7 @@
                     android:layout_marginHorizontal="@dimen/margin_16dp"
                     android:gravity="center|left"
                     android:text="Other details"
-                    android:layout_marginTop="@dimen/cardview_content_margin_top"
+                    android:layout_marginTop="@dimen/card_view_content_margin_top"
                     android:textColor="@color/black" />
 
             </androidx.cardview.widget.CardView>
@@ -296,14 +296,14 @@
                     android:paddingHorizontal="4dp"
                     app:cardUseCompatPadding="true"
                     android:clipToPadding="false"
-                    app:cardCornerRadius="@dimen/cardview_radius">
+                    app:cardCornerRadius="@dimen/card_view_radius">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:background="@color/themeColor2"
-                        android:paddingVertical="@dimen/cardview_header_padding"
+                        android:paddingVertical="@dimen/card_view_header_padding"
                         android:paddingLeft="@dimen/margin_16dp"
 
                         android:text="Date"
@@ -313,7 +313,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="14dp"
-                        android:layout_marginTop="@dimen/cardview_content_margin_top"
+                        android:layout_marginTop="@dimen/card_view_content_margin_top"
                         android:drawableLeft="@drawable/date_icon"
                         android:drawablePadding="@dimen/margin_8dp"
                         android:paddingVertical="@dimen/margin_16dp"
@@ -333,7 +333,7 @@
                     android:paddingHorizontal="4dp"
                     app:cardUseCompatPadding="true"
                     android:clipToPadding="false"
-                    app:cardCornerRadius="@dimen/cardview_radius">
+                    app:cardCornerRadius="@dimen/card_view_radius">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -341,7 +341,7 @@
                         android:layout_gravity="top"
                         android:background="@color/themeColor2"
                         android:paddingLeft="@dimen/margin_16dp"
-                        android:paddingVertical="@dimen/cardview_header_padding"
+                        android:paddingVertical="@dimen/card_view_header_padding"
                         android:text="Time"
                         android:textColor="@color/white" />
 
@@ -350,7 +350,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:layout_marginLeft="14dp"
-                        android:layout_marginTop="@dimen/cardview_content_margin_top"
+                        android:layout_marginTop="@dimen/card_view_content_margin_top"
                         android:drawableLeft="@drawable/clock_icon"
                         android:drawablePadding="@dimen/margin_8dp"
                         android:gravity="center_vertical"

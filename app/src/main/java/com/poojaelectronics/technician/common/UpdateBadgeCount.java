@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician.activity;
+package com.poojaelectronics.technician.common;
 
 public interface UpdateBadgeCount
 {

@@ -14,30 +14,28 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.OngoingTask" />
+
         <activity
-            android:name=".view.LoginActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".MapsActivity" />
-        <activity android:name=".view.StartTask" />
-        <activity
-            android:name=".activity.ServiceList"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".activity.SplashScreen"
+            android:name=".view.SplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BaseActivity" />
-        <activity android:name=".view.LoginActivity$LoginActivityClickHandler" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".common.OngoingTask" />
+        <activity android:name=".MapsActivity" />
+        <activity android:name=".view.StartTask" />
+        <activity android:name=".view.ServiceList" />
+        <activity android:name=".common.BaseActivity" />
         <activity android:name=".view.StartTask$StartTaskActivityClickHandler" />
         <activity android:name=".view.CompleteTask" />
 
@@ -45,8 +43,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <service android:name=".TrackerService"
-            android:enabled="true"/>
+        <service
+            android:name=".TrackerService"
+            android:enabled="true" />
     </application>
 
 </manifest>

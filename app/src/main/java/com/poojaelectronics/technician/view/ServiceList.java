@@ -7,9 +7,10 @@
  *  *
  */
 
-package com.poojaelectronics.technician.activity;
+package com.poojaelectronics.technician.view;
 
 import android.animation.Animator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,18 +31,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.poojaelectronics.technician.BaseActivity;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.Retrofit.Session;
-import com.poojaelectronics.technician.ServiceListFragment.HistoryFragment;
-import com.poojaelectronics.technician.ServiceListFragment.PendingFragment;
-import com.poojaelectronics.technician.view.LoginActivity;
+import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.Session;
+import com.poojaelectronics.technician.common.UpdateBadgeCount;
+import com.poojaelectronics.technician.view.ServiceListFragment.HistoryFragment;
+import com.poojaelectronics.technician.view.ServiceListFragment.PendingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +47,6 @@ import java.util.Objects;
 
 public class ServiceList extends BaseActivity implements UpdateBadgeCount
 {
-    List list = new ArrayList();
-    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
-    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
     private int revealX;
     private int revealY;
     PendingFragment pendingFragment = new PendingFragment();
@@ -77,11 +72,11 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         if( getIntent().hasExtra( "form_splash" ) && getIntent().getExtras().get( "form_splash" ).toString().equalsIgnoreCase( "1" ) )
         {
             final Intent intent = getIntent();
-            if( savedInstanceState == null && intent.hasExtra( EXTRA_CIRCULAR_REVEAL_X ) && intent.hasExtra( EXTRA_CIRCULAR_REVEAL_Y ) )
+            if( savedInstanceState == null && intent.hasExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X ) && intent.hasExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y ) )
             {
                 rootLay.setVisibility( View.INVISIBLE );
-                revealX = intent.getIntExtra( EXTRA_CIRCULAR_REVEAL_X, 0 );
-                revealY = intent.getIntExtra( EXTRA_CIRCULAR_REVEAL_Y, 0 );
+                revealX = intent.getIntExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X, 0 );
+                revealY = intent.getIntExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y, 0 );
                 ViewTreeObserver viewTreeObserver = rootLay.getViewTreeObserver();
                 if( viewTreeObserver.isAlive() )
                 {
@@ -125,8 +120,8 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         viewPager.setAdapter( adapter );
         TabLayout.Tab tab = Objects.requireNonNull( tabLayout.getTabAt( 0 ) ).setCustomView( R.layout.custom_badge );
         TabLayout.Tab tab1 = Objects.requireNonNull( tabLayout.getTabAt( 1 ) ).setCustomView( R.layout.custom_badge );
-        tabCount0 = tab.getCustomView().findViewById(R.id.tabcount);
-        tabCount1 = tab1.getCustomView().findViewById(R.id.tabcount);
+        tabCount0 = tab.getCustomView().findViewById( R.id.tabcount );
+        tabCount1 = tab1.getCustomView().findViewById( R.id.tabcount );
         txt0 = Objects.requireNonNull( tab.getCustomView() ).findViewById( R.id.tabname );
         ImageView icon = tab.getCustomView().findViewById( R.id.tabicon );
         icon.setImageDrawable( ContextCompat.getDrawable( this, R.drawable.tab_ongoing ) );
@@ -188,10 +183,28 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
     {
         if( item.getItemId() == R.id.logout )
         {
-            session.clear();
-            Intent intent = new Intent( ServiceList.this, LoginActivity.class );
-            startActivity( intent );
-            finishAffinity();
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder( this, R.style.AlertDialogTheme );
+            builder.setTitle( "Logout Alert" );
+            builder.setMessage( "Are you sure you wanted to logout?" );
+            builder.setPositiveButton( "LOGOUT", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick( DialogInterface dialog, int which )
+                {
+                    session.clear();
+                    Intent intent = new Intent( ServiceList.this, LoginActivity.class );
+                    startActivity( intent );
+                    finishAffinity();
+                }
+            } );
+            builder.setNegativeButton( "CANCEL", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick( DialogInterface dialog, int which )
+                {
+                }
+            } );
+            builder.show();
         }
         return true;
     }

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.poojaelectronics.technician.viewmodel.CompleteTaskViewModel" />
+            type="com.poojaelectronics.technician.viewModel.CompleteTaskViewModel" />
     </data>
 
     <RelativeLayout

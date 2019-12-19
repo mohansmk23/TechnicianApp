@@ -15,27 +15,17 @@ import retrofit2.Response;
 
 public class TechnicianServiceStatusRepository
 {
-    private static TechnicianServiceStatusRepository technicianServiceStatusRepository;
     private Api api;
-    private MutableLiveData<StartTaskResponse> loginResponse = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
-
-    public MutableLiveData<StartTaskResponse> getLoginResponse()
-    {
-        return loginResponse;
-    }
-
-    public MutableLiveData<Boolean> getIsLoading()
-    {
-        return isLoading;
-    }
+    public MutableLiveData<StartTaskResponse> technicianServiceResponse = new MutableLiveData<>();
+    public MutableLiveData<String> errorResponse = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     public TechnicianServiceStatusRepository()
     {
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData getCustomerDetails( HashMap<String, Object> body )
+    public void getCustomerDetails( HashMap<String, Object> body )
     {
         isLoading.setValue( true );
         api.technician_picup( body ).enqueue( new Callback<StartTaskResponse>()
@@ -46,7 +36,11 @@ public class TechnicianServiceStatusRepository
                 isLoading.postValue( false );
                 if( response.isSuccessful() )
                 {
-                    loginResponse.postValue( response.body() );
+                    technicianServiceResponse.postValue( response.body() );
+                }
+                else
+                {
+                    errorResponse.setValue( response.raw().code() + " " + response.raw().message() );
                 }
             }
 
@@ -55,9 +49,8 @@ public class TechnicianServiceStatusRepository
             {
                 t.printStackTrace();
                 isLoading.postValue( false );
-                loginResponse.postValue( null );
+                technicianServiceResponse.postValue( null );
             }
         } );
-        return loginResponse;
     }
 }

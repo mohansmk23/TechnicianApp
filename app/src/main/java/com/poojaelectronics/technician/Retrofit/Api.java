@@ -35,5 +35,5 @@ public interface Api
 
     @Multipart
     @POST( "completestatus" )
-    Call<CompleteResponse> complete_status( @Part( "apimethod" ) RequestBody apimethod, @Part( "service_id" ) RequestBody service_id, @Part( "amount" ) RequestBody amount, @Part( "reason" ) RequestBody remarks, @Part( "status" ) RequestBody status,@Part( "technician_rating" ) RequestBody rating,@Part MultipartBody.Part file );
+    Call<CompleteResponse> complete_status( @Part( "apimethod" ) RequestBody apimethod, @Part( "service_id" ) RequestBody service_id, @Part( "amount" ) RequestBody amount, @Part( "complete_remarks" ) RequestBody remarks, @Part( "status" ) RequestBody status,@Part( "technician_rating" ) RequestBody rating,@Part MultipartBody.Part file );
 }

@@ -1,13 +1,5 @@
 <resources>
-    <string name="app_name">Pooja technician</string>
-    <string name="hint_user">User</string>
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_login">Login</string>
-    <string name="label_executive_login">Executive Login</string>
-    <string name="hint_product">Product</string>
-    <string name="hint_next">Next</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Pooja Technician</string>
     <string name="quality_affordable_trust">Quality | Affordable | Trust</string>
     <string name="technician_login">Technician login</string>
     <string name="login">LOGIN</string>
@@ -16,15 +8,12 @@
     <string name="sign_in">Sign-in</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="error_empty_username">Username Can not be empty</string>
-    <string name="error_sign">Signature Mandatory</string>
-    <string name="error_amount">Amount Can not be empty</string>
     <string name="error_length_username">Username should at least two character</string>
     <string name="error_empty_password">Password Can not be empty</string>
     <string name="error_length_password">Password should at least two character</string>
     <string name="ongoing">ONGOING</string>
     <string name="history">HISTORY</string>
     <string name="customer_name">Customer Name</string>
-    <string name="paused">Paused</string>
     <string name="scheduled_date">Scheduled Date :</string>
     <string name="no_data_available">No Data Available</string>
     <string name="customer_details">Customer Details</string>
@@ -32,9 +21,7 @@
     <string name="address">Address</string>
     <string name="brand">Brand</string>
     <string name="service_type">Service Type</string>
-    <string name="service">Service</string>
     <string name="more_details">More details</string>
-    <string name="other_details">Other details</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="start_task">Start Task</string>
@@ -44,18 +31,15 @@
     <string name="job_picked_up">Job picked up</string>
     <string name="location_reached">Location Reached</string>
     <string name="task_started">Task Started</string>
-    <string name="pickup_tittle">Are you sure you want to pickup the task?
-You CAN NOT pickup this task click cancel</string>
-    <string name="reached_tittle">Are you sure you reached the destination?
-You CAN NOT reach the destination click cancel</string>
-    <string name="start_tittle">Are you sure you want to start the task?
-You CAN NOT start this task click cancel</string>
-    <string name="complete_tittle">Are you sure you want to complete the task?
-You CAN NOT complete this task click cancel</string>
+    <string name="pickup_tittle">Are you sure you want to pickup the task?</string>
+    <string name="reached_tittle">Are you sure you reached the destination?</string>
+    <string name="start_tittle">Are you sure you want to start the task?</string>
+    <string name="complete_tittle">Are you sure you want to complete the task?</string>
     <string name="clear">Clear</string>
     <string name="confirm">Confirm Sign</string>
     <string name="enter_amount">Enter Amount</string>
     <string name="remarks_optional">Remarks(optional)</string>
     <string name="acknowledgement">By signing below I confirm</string>
     <string name="customer_rating">Customer Rating</string>
+    <string name="logout">Logout</string>
 </resources>

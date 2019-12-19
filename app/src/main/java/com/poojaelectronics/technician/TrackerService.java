@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -26,12 +25,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.poojaelectronics.technician.Retrofit.Session;
+import com.poojaelectronics.technician.common.Session;
 
 public class TrackerService extends Service
 {
-//    public static double lat, lng;
-    private static final String TAG = "s2s";
     LocationRequest request = new LocationRequest();
     Session session;
 
@@ -51,7 +48,7 @@ public class TrackerService extends Service
     {
         String stop = "stop";
         registerReceiver( stopReceiver, new IntentFilter( stop ) );
-        PendingIntent broadcastIntent = PendingIntent.getBroadcast( this, 0, new Intent( stop ), PendingIntent.FLAG_UPDATE_CURRENT );
+        PendingIntent.getBroadcast( this, 0, new Intent( stop ), PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     protected BroadcastReceiver stopReceiver = new BroadcastReceiver()
@@ -59,7 +56,6 @@ public class TrackerService extends Service
         @Override
         public void onReceive( Context context, Intent intent )
         {
-            Log.d( TAG, "received stop broadcast" );
             unregisterReceiver( stopReceiver );
             stopSelf();
         }
