@@ -18,19 +18,18 @@ import retrofit2.Response;
 
 public class CompleteTaskRepository
 {
-    private static CompleteTaskRepository completeTaskRepository;
     private Api api;
     private MutableLiveData<CompleteResponse> completeTaskResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public MutableLiveData<CompleteResponse> getCompleteTaskResponse()
-    {
-        return completeTaskResponse;
-    }
-
     public MutableLiveData<Boolean> getIsLoading()
     {
         return isLoading;
+    }
+
+    public MutableLiveData<CompleteResponse> getCompleteTaskResponse()
+    {
+        return completeTaskResponse;
     }
 
     public CompleteTaskRepository()
@@ -38,7 +37,7 @@ public class CompleteTaskRepository
         api = RetrofitService.createService( Api.class );
     }
 
-    public MutableLiveData setCompleteStatus( String serviceID, String serviceAmount, String remarks,String technicianRating, File customerSign )
+    public void setCompleteStatus( String serviceID, String serviceAmount, String remarks, String technicianRating, File customerSign )
     {
         RequestBody apimethod = RequestBody.create( MediaType.parse( "multipart/form-data" ), "completestatus" );
         RequestBody serviceId = RequestBody.create( MediaType.parse( "multipart/form-data" ), serviceID );
@@ -49,7 +48,7 @@ public class CompleteTaskRepository
         RequestBody file = RequestBody.create( MediaType.parse( "multipart/form-data" ), customerSign );
         MultipartBody.Part customerSignature = MultipartBody.Part.createFormData( "upload_file", customerSign.getName(), file );
         isLoading.setValue( true );
-        api.complete_status( apimethod, serviceId, amount, reason, status,rating, customerSignature ).enqueue( new Callback<CompleteResponse>()
+        api.complete_status( apimethod, serviceId, amount, reason, status, rating, customerSignature ).enqueue( new Callback<CompleteResponse>()
         {
             @Override
             public void onResponse( @NonNull Call<CompleteResponse> call, @NonNull Response<CompleteResponse> response )
@@ -69,6 +68,5 @@ public class CompleteTaskRepository
                 completeTaskResponse.postValue( null );
             }
         } );
-        return completeTaskResponse;
     }
 }

@@ -12,6 +12,7 @@ package com.poojaelectronics.technician.view;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -36,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.MyFirebaseMessagingService;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.UpdateBadgeCount;
 import com.poojaelectronics.technician.view.ServiceListFragment.HistoryFragment;
@@ -62,6 +64,7 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_service_list );
+        registerReceiver( pendingFragment.myReceiver, new IntentFilter( MyFirebaseMessagingService.INTENT_FILTER ) );
         session = new Session( this );
         rootLay = findViewById( R.id.rootLay );
         if( getSupportActionBar() != null )
@@ -207,6 +210,13 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
             builder.show();
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver( pendingFragment.myReceiver );
     }
 
     @Override

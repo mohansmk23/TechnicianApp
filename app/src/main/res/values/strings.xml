@@ -40,6 +40,6 @@
     <string name="enter_amount">Enter Amount</string>
     <string name="remarks_optional">Remarks(optional)</string>
     <string name="acknowledgement">By signing below I confirm</string>
-    <string name="customer_rating">Customer Rating</string>
+    <string name="customer_rating">Overall Customer Rating</string>
     <string name="logout">Logout</string>
 </resources>

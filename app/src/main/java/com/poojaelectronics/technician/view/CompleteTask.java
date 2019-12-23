@@ -1,21 +1,24 @@
 package com.poojaelectronics.technician.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.github.gcacace.signaturepad.views.SignaturePad;
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.poojaelectronics.technician.common.BaseActivity;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.common.BaseActivity;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityCompleteTaskBinding;
 import com.poojaelectronics.technician.model.CompleteResponse;
@@ -29,7 +32,8 @@ public class CompleteTask extends BaseActivity
 {
     CompleteTaskViewModel completeTaskViewModel;
     ActivityCompleteTaskBinding activityCompleteTaskBinding;
-    MaterialButton clear, conform, completeTask;
+    Button completeTask;
+    AppCompatTextView clear;
     Session session;
     SignaturePad signaturePad;
     boolean isSigned = false;
@@ -50,7 +54,6 @@ public class CompleteTask extends BaseActivity
         imageFile = new File( filesDir, "customerSign" + ".jpg" );
         completeTask = findViewById( R.id.btnCompleteTask );
         clear = findViewById( R.id.btnClear );
-        conform = findViewById( R.id.btnConfirm );
         signaturePad = findViewById( R.id.signPad );
         ratingBar = findViewById( R.id.rating );
         clear.setOnClickListener( new View.OnClickListener()
@@ -78,7 +81,6 @@ public class CompleteTask extends BaseActivity
             @Override
             public void onClear()
             {
-                clear.setEnabled( false );
                 isSigned = false;
             }
         } );
@@ -100,32 +102,50 @@ public class CompleteTask extends BaseActivity
                 }
                 else
                 {
-                    Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
-                    try
-                    {
-                        os = new FileOutputStream( imageFile );
-                        signatureBitmap.compress( Bitmap.CompressFormat.JPEG, 100, os );
-                        os.flush();
-                        os.close();
-                    }
-                    catch( Exception e )
-                    {
-                        Log.e( getClass().getSimpleName(), "Error writing bitmap", e );
-                    }
-                    completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), getIntent().getExtras().get( "serviceId" ).toString(), ratingBar.getRating(), imageFile );
-                    completeTaskViewModel.completeTaskRepository.getCompleteTaskResponse().observe( CompleteTask.this, new Observer<CompleteResponse>()
+                    final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder( CompleteTask.this, R.style.AlertDialogTheme );
+                    builder.setTitle( "Are you sure to Complete the Task?" );
+                    builder.setPositiveButton( "AGREE", new DialogInterface.OnClickListener()
                     {
                         @Override
-                        public void onChanged( CompleteResponse completeResponse )
+                        public void onClick( DialogInterface dialog, int which )
                         {
-                            Snackbar.make( v, completeResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
-                            if( completeResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
+                            Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
+                            try
                             {
-                                session.setpicked( "" );
-                                startActivity( new Intent( CompleteTask.this, ServiceList.class ) );
+                                os = new FileOutputStream( imageFile );
+                                signatureBitmap.compress( Bitmap.CompressFormat.JPEG, 100, os );
+                                os.flush();
+                                os.close();
                             }
+                            catch( Exception e )
+                            {
+                                Log.e( getClass().getSimpleName(), "Error writing bitmap", e );
+                            }
+                            completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), getIntent().getExtras().get( "serviceId" ).toString(), ratingBar.getRating(), imageFile );
+                            completeTaskViewModel.completeTaskRepository.getCompleteTaskResponse().observe( CompleteTask.this, new Observer<CompleteResponse>()
+                            {
+                                @Override
+                                public void onChanged( CompleteResponse completeResponse )
+                                {
+                                    Snackbar.make( v, completeResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
+                                    if( completeResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
+                                    {
+                                        session.setpicked( "" );
+                                        startActivity( new Intent( CompleteTask.this, ServiceList.class ).setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK ));
+                                        finish();
+                                    }
+                                }
+                            } );
                         }
                     } );
+                    builder.setNegativeButton( "CANCEL", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick( DialogInterface dialog, int which )
+                        {
+                        }
+                    } );
+                    builder.show();
                 }
             }
         } );

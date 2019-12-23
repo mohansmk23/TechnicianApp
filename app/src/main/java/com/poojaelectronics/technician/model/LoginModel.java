@@ -6,8 +6,17 @@ import androidx.databinding.library.baseAdapters.BR;
 
 public class LoginModel extends BaseObservable
 {
-    private String userName;
-    private String password;
+    private String userName, password, token;
+
+    public String getToken()
+    {
+        return token;
+    }
+
+    public void setToken( String token )
+    {
+        this.token = token;
+    }
 
     @Bindable
     public String getUserName()
@@ -32,5 +41,4 @@ public class LoginModel extends BaseObservable
         this.password = password;
         notifyPropertyChanged( BR.password );
     }
-
 }

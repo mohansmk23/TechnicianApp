@@ -1,8 +1,11 @@
 package com.poojaelectronics.technician.model;
 
+import android.view.View;
+
 public class StartTaskModel
 {
-    private String customer_name,admin_mobile_number, address, phone, email, category_name, service_type, brand_name, technician_name, date, time, remarks, status, cancel_remarks, created_at, re_schedule, re_date, re_time, lat, lng;
+    private String customer_name, admin_mobile_number, address, phone, email, category_name, service_type, brand_name, technician_name, date, time, remarks, status, cancel_remarks, created_at, re_schedule, re_date, re_time, lat, lng;
+    private int remarksVisibility = View.GONE;
 
     public String getAdmin_mobile_number()
     {
@@ -202,5 +205,15 @@ public class StartTaskModel
     public void setLng( String lng )
     {
         this.lng = lng;
+    }
+
+    public int getRemarksVisibility()
+    {
+        return remarksVisibility;
+    }
+
+    public void setRemarksVisibility( int remarksVisibility )
+    {
+        this.remarksVisibility = remarksVisibility;
     }
 }

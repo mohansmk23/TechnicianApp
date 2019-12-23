@@ -7,7 +7,7 @@
  *  *
  */
 
-package com.poojaelectronics.technician;
+package com.poojaelectronics.technician.view;
 
 import android.os.Bundle;
 
@@ -18,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.common.BaseActivity;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback

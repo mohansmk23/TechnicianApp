@@ -32,6 +32,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/margin_8dp"
                 android:weightSum="10">
 
@@ -40,6 +41,7 @@
                     list_image="@{itemPendingList.image_url}"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:layout_gravity="center"
                     android:paddingVertical="@dimen/margin_16dp"
                     android:src="@drawable/dash_tv" />
 
@@ -53,30 +55,32 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:weightSum="2"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="@{itemPendingList.service_type}"
                             android:textColor="@color/black"
                             android:typeface="sans" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
                             android:background="@drawable/et_border"
-                            android:backgroundTint="#ff8a65"
-                            android:drawableStart="@drawable/icon_pause_micro"
+                            android:backgroundTint="#44CAF5"
+                            android:drawableStart="@drawable/ic_play"
                             android:drawablePadding="4dp"
-                            android:drawableTint="#ff7043"
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/margin_8dp"
                             android:text="@{itemPendingList.status}"
                             android:textAlignment="center"
-                            android:textColor="#ff7043"
+                            android:textColor="@android:color/black"
                             android:textSize="@dimen/text_size_micro" />
 
                     </LinearLayout>
@@ -85,10 +89,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:weightSum="2"
                         android:layout_marginTop="@dimen/margin_16dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/date_icon_small"
                             android:drawablePadding="4dp"
@@ -98,7 +104,8 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_marginStart="@dimen/margin_16dp"
@@ -139,8 +146,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_16dp"
+                        android:gravity="top"
                         android:drawableStart="@drawable/icon_location"
                         android:drawablePadding="4dp"
+                        android:paddingBottom="@dimen/margin_8dp"
                         android:drawableTint="@color/themeColor2"
                         android:text="@{itemPendingList.address}"
                         android:textColor="@color/black" />

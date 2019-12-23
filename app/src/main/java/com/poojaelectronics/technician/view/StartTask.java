@@ -18,6 +18,8 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,9 +39,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.TrackerService;
 import com.poojaelectronics.technician.common.BaseActivity;
 import com.poojaelectronics.technician.common.Session;
+import com.poojaelectronics.technician.common.TrackerService;
 import com.poojaelectronics.technician.databinding.ActivityStartTaskBinding;
 import com.poojaelectronics.technician.model.StartTaskModel;
 import com.poojaelectronics.technician.model.StartTaskResponse;
@@ -59,6 +61,7 @@ public class StartTask extends BaseActivity
     FloatingActionButton floatingActionButton;
     Animation startAnimation;
     String tittle, serviceId;
+    MaterialAlertDialogBuilder builder;
     private static final int PERMISSIONS_REQUEST = 1;
     StartTaskActivityClickHandler startTaskActivityClickHandler;
     ActivityStartTaskBinding activityStartTaskBinding;
@@ -88,10 +91,15 @@ public class StartTask extends BaseActivity
             {
                 if( !startTaskModel.getLat().isEmpty() && !startTaskModel.getLng().isEmpty() )
                 {
-                    Uri navigation = Uri.parse( "google.navigation:q=" + "13.012101" + "," + "80.229734" );
+                    Uri navigation = Uri.parse( "google.navigation:q=" + startTaskModel.getLat() + "," + startTaskModel.getLng() );
+                    //                    Uri navigation = Uri.parse( "google.navigation:q=" + "13.012101" + "," + "80.229734" );
                     Intent navigationIntent = new Intent( Intent.ACTION_VIEW, navigation );
                     navigationIntent.setPackage( "com.google.android.apps.maps" );
                     startActivity( navigationIntent );
+                }
+                else
+                {
+                    Snackbar.make( rootLay, "Unable to get the Address", Snackbar.LENGTH_LONG ).show();
                 }
             }
         } );
@@ -118,7 +126,7 @@ public class StartTask extends BaseActivity
             {
                 String[] multiChoiceItems = getResources().getStringArray( R.array.dialog_multi_choice_array );
                 final boolean[] checkedItems = { false };
-                final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder( StartTask.this, R.style.AlertDialogTheme );
+                builder = new MaterialAlertDialogBuilder( StartTask.this, R.style.AlertDialogTheme );
                 builder.setTitle( tittle );
                 builder.setMultiChoiceItems( multiChoiceItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener()
                 {
@@ -138,16 +146,37 @@ public class StartTask extends BaseActivity
                             switch( status )
                             {
                                 case 0:
-                                    startTaskViewModel.picked( serviceId, "picked" );
+                                    LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
+                                    if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                                    {
+                                        Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                                    }
+                                    else
+                                    {
+                                        int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
+                                        if( permission == PackageManager.PERMISSION_GRANTED )
+                                        {
+                                            startTrackerService();
+                                            startTaskViewModel.picked( serviceId, "picked" );
+                                        }
+                                        else
+                                        {
+                                            ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
+                                        }
+                                    }
+                                    isAgree = false;
                                     break;
                                 case 1:
                                     startTaskViewModel.picked( serviceId, "reached" );
+                                    isAgree = false;
                                     break;
                                 case 2:
                                     startTaskViewModel.picked( serviceId, "start" );
+                                    isAgree = false;
                                     break;
                                 case 3:
                                     startActivity( new Intent( StartTask.this, CompleteTask.class ).putExtra( "serviceId", serviceId ) );
+                                    isAgree = false;
                                     break;
                             }
                         }
@@ -239,6 +268,10 @@ public class StartTask extends BaseActivity
                     startTaskModel.setDate( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getDate() );
                     startTaskModel.setTime( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getTime() );
                     startTaskModel.setRemarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getRemarks() );
+                    if( !startTaskModel.getRemarks().isEmpty() )
+                    {
+                        startTaskModel.setRemarksVisibility( View.VISIBLE );
+                    }
                     startTaskModel.setStatus( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getStatus() );
                     startTaskModel.setCancel_remarks( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCancelRemarks() );
                     startTaskModel.setCreated_at( startTaskResponse.getOutput().get( 0 ).getProfile().get( 0 ).getCreatedAt() );
@@ -263,23 +296,8 @@ public class StartTask extends BaseActivity
                         startTask.setText( R.string.reached );
                         cvPicked.setVisibility( View.VISIBLE );
                         tvStatus.setText( R.string.job_picked_up );
-                        getSupportActionBar().hide();
                         cvPicked.startAnimation( startAnimation );
                         status = 1;
-                        LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
-                        if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
-                        {
-                            Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
-                        }
-                        int permission = ContextCompat.checkSelfPermission( StartTask.this, Manifest.permission.ACCESS_FINE_LOCATION );
-                        if( permission == PackageManager.PERMISSION_GRANTED )
-                        {
-                            startTrackerService();
-                        }
-                        else
-                        {
-                            ActivityCompat.requestPermissions( StartTask.this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, PERMISSIONS_REQUEST );
-                        }
                         tittle = getString( R.string.reached_tittle );
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
@@ -445,8 +463,20 @@ public class StartTask extends BaseActivity
     }
 
     @Override
+    public boolean onOptionsItemSelected( @NonNull MenuItem item )
+    {
+        startActivity( new Intent( this, ServiceList.class ) );
+        finish();
+        return true;
+    }
+
+    @Override
     public void onBackPressed()
     {
-        if( status < 1 ) super.onBackPressed();
+        if( status < 1 )
+        {
+            startActivity( new Intent( this, ServiceList.class ) );
+            finish();
+        }
     }
 }

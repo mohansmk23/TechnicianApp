@@ -68,6 +68,7 @@ public class LoginViewModel extends ViewModel
             loginObject.put( "apimethod", "poojaapi" );
             loginObject.put( "username", loginModel.getUserName() );
             loginObject.put( "password", loginModel.getPassword() );
+            loginObject.put( "token", loginModel.getToken() );
             loginRepository.login( loginObject );
         }
         return false;

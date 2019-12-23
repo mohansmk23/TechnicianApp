@@ -47,6 +47,7 @@ public class StartTaskRepository
             @Override
             public void onFailure( @NonNull Call<StartTaskResponse> call, @NonNull Throwable t )
             {
+                errorResponse.postValue( t.getCause() + " " + t.getMessage() );
                 isLoading.setValue( false );
                 t.printStackTrace();
                 customerDetailsResponse.postValue( null );

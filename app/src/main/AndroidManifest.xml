@@ -32,9 +32,11 @@
             android:name=".view.LoginActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".common.OngoingTask" />
-        <activity android:name=".MapsActivity" />
+        <activity android:name=".view.MapsActivity" />
         <activity android:name=".view.StartTask" />
-        <activity android:name=".view.ServiceList" />
+        <activity
+            android:name=".view.ServiceList"
+            android:launchMode="singleTask" />
         <activity android:name=".common.BaseActivity" />
         <activity android:name=".view.StartTask$StartTaskActivityClickHandler" />
         <activity android:name=".view.CompleteTask" />
@@ -44,8 +46,9 @@
             android:value="@string/google_maps_key" />
 
         <service
-            android:name=".TrackerService"
+            android:name=".common.TrackerService"
             android:enabled="true" />
+        <service android:name=".common.MyFirebaseMessagingService" />
     </application>
 
 </manifest>

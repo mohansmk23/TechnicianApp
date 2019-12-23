@@ -19,13 +19,18 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
@@ -86,7 +91,19 @@ public class LoginActivity extends AppCompatActivity
         {
             rootLayout.setVisibility( View.VISIBLE );
         }
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener( new OnCompleteListener<InstanceIdResult>()
+        {
+            @Override
+            public void onComplete( @NonNull Task<InstanceIdResult> task )
+            {
+                if( task.isSuccessful() )
+                {
+                    loginViewModel.getLoginModel().setToken( task.getResult().getToken() );
+                }
+            }
+        } );
     }
+
 
     protected void revealActivity( int x, int y )
     {

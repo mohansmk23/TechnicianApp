@@ -15,6 +15,7 @@
     <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/holo_green_light</item>
         <item name="rippleColor">@color/colorAccent</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
@@ -22,6 +23,7 @@
     <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/holo_red_light</item>
         <item name="rippleColor">@color/colorAccent</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">14sp</item>
     </style>

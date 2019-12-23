@@ -9,7 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.poojaelectronics.technician.MapsActivity;
+import com.poojaelectronics.technician.view.MapsActivity;
 import com.poojaelectronics.technician.R;
 
 public class OngoingTask extends BaseActivity

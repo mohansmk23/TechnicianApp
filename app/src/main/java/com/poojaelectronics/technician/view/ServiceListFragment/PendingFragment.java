@@ -9,7 +9,10 @@
 
 package com.poojaelectronics.technician.view.ServiceListFragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.common.MyFirebaseMessagingService;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.EventHandlers;
 import com.poojaelectronics.technician.common.UpdateBadgeCount;
@@ -44,6 +48,7 @@ public class PendingFragment extends Fragment
 {
     private RecyclerView recyclerView;
     private TextView noData;
+    private Session session;
     private SwipeRefreshLayout pullRefresh;
     private PendingListViewModel pendingListViewModel;
 
@@ -56,7 +61,7 @@ public class PendingFragment extends Fragment
         noData = pendingFragment.findViewById( R.id.noData );
         pullRefresh = pendingFragment.findViewById( R.id.refresh );
         pendingListViewModel = ViewModelProviders.of( this ).get( PendingListViewModel.class );
-        final Session session = new Session( getActivity() );
+        session = new Session( getActivity() );
         pendingListViewModel.init( session.getTechId() );
         setupObservers();
         pullRefresh.setColorSchemeResources( R.color.themeColor1, R.color.themeColor2, R.color.colorPrimary );
@@ -83,10 +88,18 @@ public class PendingFragment extends Fragment
                 {
                     if( pendingListResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
                     {
-                        recyclerView.setVisibility( View.VISIBLE );
-                        noData.setVisibility( View.GONE );
-                        setUpRecyclerView( prepareData( pendingListResponse.getOutput().get( 0 ).getBookinglist() ) );
-                        ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() ) );
+                        if( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() > 0 )
+                        {
+                            recyclerView.setVisibility( View.VISIBLE );
+                            noData.setVisibility( View.GONE );
+                            setUpRecyclerView( prepareData( pendingListResponse.getOutput().get( 0 ).getBookinglist() ) );
+                            ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() ) );
+                        }
+                        else
+                        {
+                            recyclerView.setVisibility( View.GONE );
+                            noData.setVisibility( View.VISIBLE );
+                        }
                     }
                     else
                     {
@@ -96,21 +109,22 @@ public class PendingFragment extends Fragment
                 }
                 else
                 {
-                    pendingListViewModel.pendingListRepository.errorResponse.observe( getActivity(), new Observer<String>() {
+                    pendingListViewModel.pendingListRepository.errorResponse.observe( getActivity(), new Observer<String>()
+                    {
                         @Override
                         public void onChanged( String s )
                         {
-                            Snackbar.make( getView(),s,Snackbar.LENGTH_LONG ).show();
+                            Snackbar.make( getView(), s, Snackbar.LENGTH_LONG ).show();
                         }
                     } );
                 }
             }
         } );
-        pendingListViewModel.pendingListRepository.isLoading.observe( this, new Observer<Boolean>() {
+        pendingListViewModel.pendingListRepository.isLoading.observe( this, new Observer<Boolean>()
+        {
             @Override
             public void onChanged( Boolean aBoolean )
             {
-
             }
         } );
     }
@@ -202,4 +216,13 @@ public class PendingFragment extends Fragment
             return serviceList.size();
         }
     }
+
+    public BroadcastReceiver myReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive( Context context, Intent intent )
+        {
+            pendingListViewModel.init( session.getTechId() );
+        }
+    };
 }

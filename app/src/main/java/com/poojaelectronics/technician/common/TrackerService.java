@@ -1,4 +1,4 @@
-package com.poojaelectronics.technician;
+package com.poojaelectronics.technician.common;
 
 import android.Manifest;
 import android.app.PendingIntent;

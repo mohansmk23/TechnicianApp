@@ -43,6 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
+                    app:cardBackgroundColor="@color/green"
                     android:visibility="gone"
                     app:cardCornerRadius="@dimen/card_view_radius">
 
@@ -50,9 +51,8 @@
                         android:id="@+id/status"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@color/green"
                         android:drawableEnd="@drawable/icon_like"
-                        android:gravity="center|left"
+                        android:gravity="center|start"
                         android:paddingHorizontal="@dimen/margin_24dp"
                         android:text="@string/job_picked_up"
                         android:textColor="@color/white" />
@@ -256,6 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_16dp"
                     android:clipToPadding="false"
+                    android:visibility="@{customerDetails.remarksVisibility}"
                     app:cardCornerRadius="@dimen/card_view_radius"
                     app:cardUseCompatPadding="true">
 
