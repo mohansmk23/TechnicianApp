@@ -1,5 +1,7 @@
 package com.poojaelectronics.technician.common;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -74,5 +76,14 @@ public class BaseActivity extends AppCompatActivity
             return super.onOptionsItemSelected( item );
         }
         return true;
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        NotificationManager notificationManager = (NotificationManager) getSystemService( Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
+        notificationManager.cancelAll();
     }
 }

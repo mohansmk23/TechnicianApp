@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,6 +67,13 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         setContentView( R.layout.activity_service_list );
         registerReceiver( pendingFragment.myReceiver, new IntentFilter( MyFirebaseMessagingService.INTENT_FILTER ) );
         session = new Session( this );
+        if( !session.getpicked().isEmpty() )
+        {
+            Intent intent = new Intent( this, StartTask.class );
+            intent.putExtra( "service_id", session.getpicked() );
+            startActivity(  intent );
+            finish();
+        }
         rootLay = findViewById( R.id.rootLay );
         if( getSupportActionBar() != null )
         {
@@ -123,14 +131,14 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         viewPager.setAdapter( adapter );
         TabLayout.Tab tab = Objects.requireNonNull( tabLayout.getTabAt( 0 ) ).setCustomView( R.layout.custom_badge );
         TabLayout.Tab tab1 = Objects.requireNonNull( tabLayout.getTabAt( 1 ) ).setCustomView( R.layout.custom_badge );
-        tabCount0 = tab.getCustomView().findViewById( R.id.tabcount );
-        tabCount1 = tab1.getCustomView().findViewById( R.id.tabcount );
-        txt0 = Objects.requireNonNull( tab.getCustomView() ).findViewById( R.id.tabname );
-        ImageView icon = tab.getCustomView().findViewById( R.id.tabicon );
+        tabCount0 = tab.getCustomView().findViewById( R.id.tabCount );
+        tabCount1 = tab1.getCustomView().findViewById( R.id.tabCount );
+        txt0 = Objects.requireNonNull( tab.getCustomView() ).findViewById( R.id.tabName );
+        ImageView icon = tab.getCustomView().findViewById( R.id.tabIcon );
         icon.setImageDrawable( ContextCompat.getDrawable( this, R.drawable.tab_ongoing ) );
         txt0.setText( R.string.ongoing );
-        txt1 = Objects.requireNonNull( tab1.getCustomView() ).findViewById( R.id.tabname );
-        ImageView icon1 = tab1.getCustomView().findViewById( R.id.tabicon );
+        txt1 = Objects.requireNonNull( tab1.getCustomView() ).findViewById( R.id.tabName );
+        ImageView icon1 = tab1.getCustomView().findViewById( R.id.tabIcon );
         icon1.setImageDrawable( ContextCompat.getDrawable( this, R.drawable.tab_history ) );
         txt1.setText( R.string.history );
     }
@@ -210,6 +218,20 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
             builder.show();
         }
         return true;
+    }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        session.setServiceList( "1" );
+    }
+
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        session.setServiceList( "" );
     }
 
     @Override

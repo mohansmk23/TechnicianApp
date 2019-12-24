@@ -18,14 +18,14 @@ public class Session
         prefs.edit().clear().apply();
     }
 
+    public String getTechId()
+    {
+        return prefs.getString( "techId", "" );
+    }
+
     public void setTechId( String techId )
     {
         prefs.edit().putString( "techId", techId ).apply();
-    }
-
-    public void setpicked( String serviceID )
-    {
-        prefs.edit().putString( "service_id", serviceID ).apply();
     }
 
     public String getpicked()
@@ -33,8 +33,20 @@ public class Session
         return prefs.getString( "service_id", "" );
     }
 
-    public String getTechId()
+    public void setpicked( String serviceID )
     {
-        return prefs.getString( "techId", "" );
+        prefs.edit().putString( "service_id", serviceID ).apply();
     }
+
+    public String getServiceList()
+    {
+        return prefs.getString( "service_list", "" );
+    }
+
+    public void setServiceList( String serviceList )
+    {
+        prefs.edit().putString( "service_list", serviceList ).apply();
+    }
+
+
 }

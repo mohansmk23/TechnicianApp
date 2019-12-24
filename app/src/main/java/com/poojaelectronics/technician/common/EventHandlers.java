@@ -6,5 +6,5 @@ public interface EventHandlers
 {
 //    public void OngoingMenu( PendingListModel model, View v);
 
-    public void OnItemClick(View view );
+    void OnItemClick( View view );
 }

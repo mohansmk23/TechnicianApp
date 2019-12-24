@@ -42,4 +42,5 @@
     <string name="acknowledgement">By signing below I confirm</string>
     <string name="customer_rating">Overall Customer Rating</string>
     <string name="logout">Logout</string>
+    <string name="zero">0</string>
 </resources>

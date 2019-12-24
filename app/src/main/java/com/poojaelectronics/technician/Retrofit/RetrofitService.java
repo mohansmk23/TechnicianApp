@@ -7,8 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService
 {
-        private static final String Api_MainLogin_Url = "http://192.168.1.55/2019/pooja_elctrical/index.php/";
-//    private static final String Api_MainLogin_Url = "http://hirephpcoder.com/dev/poojaelectricals/index.php/";
+//    private static final String Api_MainLogin_Url = "http://192.168.1.55/2019/pooja_elctrical/index.php/";
+    private static final String Api_MainLogin_Url = "http://hirephpcoder.com/dev/poojaelectricals/index.php/";
     private static Retrofit retrofit = new Retrofit.Builder().client( getClient() ).baseUrl( Api_MainLogin_Url ).addConverterFactory( GsonConverterFactory.create() ).build();
 
     public static <S> S createService( Class<S> serviceClass )

@@ -14,7 +14,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.poojaelectronics.technician.view.LoginActivity;
-import com.poojaelectronics.technician.view.ServiceList;
+import com.poojaelectronics.technician.view.StartTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,16 +22,17 @@ import org.json.JSONObject;
 public class MyFirebaseMessagingService extends FirebaseMessagingService
 {
     NotificationUtils notificationUtils;
-    String title, message, BookingId, imageUrl, type;
+    String title, message, ServiceId, imageUrl, type;
     public static final String INTENT_FILTER = "INTENT_FILTER";
     public static final String LOGOUT_FILTER = "LOGOUT_FILTER";
-    Session session = new Session( getApplicationContext() );
+    Session session;
     Intent resultIntent;
 
     @Override
     public void onMessageReceived( @NonNull RemoteMessage remoteMessage )
     {
         super.onMessageReceived( remoteMessage );
+        session = new Session( getBaseContext() );
         if( remoteMessage.getData().size() > 0 )
         {
             try
@@ -54,7 +55,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
             type = data.getString( "type" );
             message = data.getString( "msg" );
             title = data.getString( "title" );
-            BookingId = data.getString( "id" );
+            ServiceId = data.getString( "id" );
             imageUrl = data.getString( "image" );
         }
         catch( JSONException e )
@@ -70,10 +71,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
         }
         else
         {
-            resultIntent = new Intent( getApplicationContext(), ServiceList.class );
-            resultIntent.putExtra( "BOOKING_ID", BookingId );
+            resultIntent = new Intent( getApplicationContext(), StartTask.class );
+            resultIntent.putExtra( "service_id", ServiceId );
             Intent intent = new Intent( INTENT_FILTER );
-            intent.putExtra( "BOOKING_ID", BookingId );
+            intent.putExtra( "service_id", ServiceId );
             sendBroadcast( intent );
         }
         Glide.with( getApplicationContext() ).asBitmap().load( imageUrl ).into( new CustomTarget<Bitmap>()
@@ -81,7 +82,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
             @Override
             public void onResourceReady( @NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition )
             {
-                showNotificationMessageWithBigImage( getApplicationContext(), title, message, resultIntent, resource );
+                if( session.getServiceList().isEmpty() )
+                {
+                    showNotificationMessageWithBigImage( getApplicationContext(), title, message, resultIntent, resource );
+                }
             }
 
             @Override

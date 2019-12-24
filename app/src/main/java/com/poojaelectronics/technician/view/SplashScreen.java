@@ -1,5 +1,7 @@
 package com.poojaelectronics.technician.view;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,9 @@ public class SplashScreen extends AppCompatActivity
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_splash_screen );
+        NotificationManager notificationManager = ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+        assert notificationManager != null;
+        notificationManager.cancelAll();
         Window w = getWindow();
         w.setFlags( WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
         session = new Session( this );

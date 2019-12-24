@@ -18,7 +18,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -92,7 +91,6 @@ public class StartTask extends BaseActivity
                 if( !startTaskModel.getLat().isEmpty() && !startTaskModel.getLng().isEmpty() )
                 {
                     Uri navigation = Uri.parse( "google.navigation:q=" + startTaskModel.getLat() + "," + startTaskModel.getLng() );
-                    //                    Uri navigation = Uri.parse( "google.navigation:q=" + "13.012101" + "," + "80.229734" );
                     Intent navigationIntent = new Intent( Intent.ACTION_VIEW, navigation );
                     navigationIntent.setPackage( "com.google.android.apps.maps" );
                     startActivity( navigationIntent );
@@ -149,7 +147,7 @@ public class StartTask extends BaseActivity
                                     LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
                                     if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
                                     {
-                                        Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
+                                        Snackbar.make( rootLay, "Please enable location services to continue", Snackbar.LENGTH_SHORT ).show();
                                     }
                                     else
                                     {
@@ -201,7 +199,7 @@ public class StartTask extends BaseActivity
 
     private void startTrackerService()
     {
-        startService( new Intent( StartTask.this, TrackerService.class ) );
+        ContextCompat.startForegroundService( this, new Intent( StartTask.this, TrackerService.class ) );
     }
 
     private void stopTrackerService()
@@ -215,6 +213,7 @@ public class StartTask extends BaseActivity
         if( requestCode == PERMISSIONS_REQUEST && grantResults.length == 1 && grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED )
         {
             startTrackerService();
+            startTaskViewModel.picked( serviceId, "picked" );
         }
     }
 
