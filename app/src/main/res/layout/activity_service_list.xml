@@ -7,10 +7,11 @@
   ~  */
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:id="@+id/rootLay"
     android:background="@color/defaultColor"
     android:orientation="vertical">
@@ -18,25 +19,28 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
+        app:layout_constraintTop_toTopOf="parent"
         style="fonts/ArchitectsDaughter.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:fitsSystemWindows="true"
-        android:focusable="true"
-        android:minHeight="?attr/actionBarSize"
-        android:overScrollMode="always"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:visibility="visible"
+        app:tabMaxWidth="0dp"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/black"
+        app:tabIndicatorColor="@color/colorPrimary"
+        android:background="#e0e0e0"
         app:tabTextColor="@color/black" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-</LinearLayout>
+    <include
+        layout="@layout/view_network_connection_status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

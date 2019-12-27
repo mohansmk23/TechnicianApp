@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.LoadingDialog;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityCompleteTaskBinding;
 import com.poojaelectronics.technician.model.CompleteResponse;
@@ -27,6 +28,7 @@ import com.poojaelectronics.technician.viewModel.CompleteTaskViewModel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 public class CompleteTask extends BaseActivity
 {
@@ -121,7 +123,7 @@ public class CompleteTask extends BaseActivity
                             {
                                 Log.e( getClass().getSimpleName(), "Error writing bitmap", e );
                             }
-                            completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), getIntent().getExtras().get( "serviceId" ).toString(), ratingBar.getRating(), imageFile );
+                            completeTaskViewModel.onComplete( completeTaskViewModel.completeTaskModel.getAmount(), completeTaskViewModel.completeTaskModel.getRemarks(), Objects.requireNonNull( Objects.requireNonNull( getIntent().getExtras() ).get( "serviceId" ) ).toString(), ratingBar.getRating(), imageFile );
                             completeTaskViewModel.completeTaskRepository.getCompleteTaskResponse().observe( CompleteTask.this, new Observer<CompleteResponse>()
                             {
                                 @Override
@@ -133,6 +135,20 @@ public class CompleteTask extends BaseActivity
                                         session.setpicked( "" );
                                         startActivity( new Intent( CompleteTask.this, ServiceList.class ).setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK ));
                                         finish();
+                                    }
+                                }
+                            } );
+                            completeTaskViewModel.completeTaskRepository.getIsLoading().observe( CompleteTask.this, new Observer<Boolean>() {
+                                @Override
+                                public void onChanged( Boolean aBoolean )
+                                {
+                                    if( aBoolean )
+                                    {
+                                        LoadingDialog.showDialog( CompleteTask.this );
+                                    }
+                                    else
+                                    {
+                                        LoadingDialog.dismiss();
                                     }
                                 }
                             } );

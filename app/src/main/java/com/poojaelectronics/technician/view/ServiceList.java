@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -55,7 +55,7 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
     PendingFragment pendingFragment = new PendingFragment();
     HistoryFragment historyFragment = new HistoryFragment();
     TabLayout tabLayout;
-    LinearLayout rootLay;
+    ConstraintLayout rootLay;
     Session session;
     TextView txt0, txt1, tabCount0, tabCount1;
     boolean doubleBackToExitPressedOnce = false;
@@ -71,7 +71,7 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         {
             Intent intent = new Intent( this, StartTask.class );
             intent.putExtra( "service_id", session.getpicked() );
-            startActivity(  intent );
+            startActivity( intent );
             finish();
         }
         rootLay = findViewById( R.id.rootLay );
@@ -80,7 +80,7 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
             getSupportActionBar().setTitle( "Service List" );
             getSupportActionBar().setHomeAsUpIndicator( R.drawable.pe_logo_small );
         }
-        if( getIntent().hasExtra( "form_splash" ) && getIntent().getExtras().get( "form_splash" ).toString().equalsIgnoreCase( "1" ) )
+        if( getIntent().hasExtra( "form_splash" ) && Objects.requireNonNull( Objects.requireNonNull( getIntent().getExtras() ).get( "form_splash" ) ).toString().equalsIgnoreCase( "1" ) )
         {
             final Intent intent = getIntent();
             if( savedInstanceState == null && intent.hasExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_X ) && intent.hasExtra( LoginActivity.EXTRA_CIRCULAR_REVEAL_Y ) )
@@ -131,8 +131,8 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         viewPager.setAdapter( adapter );
         TabLayout.Tab tab = Objects.requireNonNull( tabLayout.getTabAt( 0 ) ).setCustomView( R.layout.custom_badge );
         TabLayout.Tab tab1 = Objects.requireNonNull( tabLayout.getTabAt( 1 ) ).setCustomView( R.layout.custom_badge );
-        tabCount0 = tab.getCustomView().findViewById( R.id.tabCount );
-        tabCount1 = tab1.getCustomView().findViewById( R.id.tabCount );
+        tabCount0 = Objects.requireNonNull( tab.getCustomView() ).findViewById( R.id.tabCount );
+        tabCount1 = Objects.requireNonNull( tab1.getCustomView() ).findViewById( R.id.tabCount );
         txt0 = Objects.requireNonNull( tab.getCustomView() ).findViewById( R.id.tabName );
         ImageView icon = tab.getCustomView().findViewById( R.id.tabIcon );
         icon.setImageDrawable( ContextCompat.getDrawable( this, R.drawable.tab_ongoing ) );
@@ -219,13 +219,13 @@ public class ServiceList extends BaseActivity implements UpdateBadgeCount
         }
         return true;
     }
+
     @Override
     protected void onStart()
     {
         super.onStart();
         session.setServiceList( "1" );
     }
-
 
     @Override
     protected void onStop()

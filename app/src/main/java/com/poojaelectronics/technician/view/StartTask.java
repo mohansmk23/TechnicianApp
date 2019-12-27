@@ -14,6 +14,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -34,11 +35,21 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
 import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.LoadingDialog;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.TrackerService;
 import com.poojaelectronics.technician.databinding.ActivityStartTaskBinding;
@@ -46,8 +57,11 @@ import com.poojaelectronics.technician.model.StartTaskModel;
 import com.poojaelectronics.technician.model.StartTaskResponse;
 import com.poojaelectronics.technician.viewModel.StartTaskViewModel;
 
+import java.util.Objects;
+
 public class StartTask extends BaseActivity
 {
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     TextView startTask, tvStatus;
     ImageView direction;
     CardView cvPicked;
@@ -59,7 +73,7 @@ public class StartTask extends BaseActivity
     int status = 0;
     FloatingActionButton floatingActionButton;
     Animation startAnimation;
-    String tittle, serviceId;
+    String tittle, serviceId = "";
     MaterialAlertDialogBuilder builder;
     private static final int PERMISSIONS_REQUEST = 1;
     StartTaskActivityClickHandler startTaskActivityClickHandler;
@@ -70,7 +84,7 @@ public class StartTask extends BaseActivity
     {
         super.onCreate( savedInstanceState );
         startTaskViewModel = ViewModelProviders.of( this ).get( StartTaskViewModel.class );
-        serviceId = getIntent().getExtras().get( "service_id" ).toString();
+        serviceId = Objects.requireNonNull( Objects.requireNonNull( getIntent().getExtras() ).get( "service_id" ) ).toString();
         startTaskViewModel.init( serviceId );
         startTaskActivityClickHandler = new StartTaskActivityClickHandler( this );
         setupObservers();
@@ -145,9 +159,49 @@ public class StartTask extends BaseActivity
                             {
                                 case 0:
                                     LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
-                                    if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                                    if( lm != null && !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
                                     {
-                                        Snackbar.make( rootLay, "Please enable location services to continue", Snackbar.LENGTH_SHORT ).show();
+                                        GoogleApiClient googleApiClient = new GoogleApiClient.Builder( StartTask.this ).addApi( LocationServices.API ).build();
+                                        googleApiClient.connect();
+                                        LocationRequest locationRequest = LocationRequest.create();
+                                        locationRequest.setPriority( LocationRequest.PRIORITY_HIGH_ACCURACY );
+                                        locationRequest.setInterval( 10000 );
+                                        locationRequest.setFastestInterval( 10000 / 2 );
+                                        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest( locationRequest );
+                                        builder.setAlwaysShow( true );
+                                        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings( googleApiClient, builder.build() );
+                                        result.setResultCallback( new ResultCallback<LocationSettingsResult>()
+                                        {
+                                            @Override
+                                            public void onResult( @NonNull LocationSettingsResult result )
+                                            {
+                                                final Status status = result.getStatus();
+                                                switch( status.getStatusCode() )
+                                                {
+                                                    case LocationSettingsStatusCodes.SUCCESS:
+                                                        break;
+                                                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                                                        try
+                                                        {
+                                                            status.startResolutionForResult( StartTask.this, REQUEST_CHECK_SETTINGS );
+                                                        }
+                                                        catch( IntentSender.SendIntentException ignore )
+                                                        {
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                        } );
+                                        /*Snackbar.make( rootLay, "Please enable location services to continue", Snackbar.LENGTH_SHORT ).show();
+                                        Handler handler = new Handler();
+                                        handler.postDelayed( new Runnable()
+                                        {
+                                            @Override
+                                            public void run()
+                                            {
+                                                startActivity( new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS ) );
+                                            }
+                                        }, 1000 );*/
                                     }
                                     else
                                     {
@@ -344,6 +398,14 @@ public class StartTask extends BaseActivity
             @Override
             public void onChanged( Boolean aBoolean )
             {
+                if( aBoolean )
+                {
+                    LoadingDialog.showDialog( StartTask.this );
+                }
+                else
+                {
+                    LoadingDialog.dismiss();
+                }
             }
         } );
         startTaskViewModel.technicianServiceStatusRepository.technicianServiceResponse.observe( this, new Observer<StartTaskResponse>()
@@ -397,7 +459,7 @@ public class StartTask extends BaseActivity
                         cvPicked.startAnimation( startAnimation );
                         status = 1;
                         LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
-                        if( !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
+                        if( lm != null && !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
                         {
                             Snackbar.make( rootLay, "Please enable location services", Snackbar.LENGTH_SHORT ).show();
                         }
@@ -457,6 +519,14 @@ public class StartTask extends BaseActivity
             @Override
             public void onChanged( Boolean aBoolean )
             {
+                if( aBoolean )
+                {
+                    LoadingDialog.showDialog( StartTask.this );
+                }
+                else
+                {
+                    LoadingDialog.dismiss();
+                }
             }
         } );
     }

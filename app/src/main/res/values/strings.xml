@@ -43,4 +43,7 @@
     <string name="customer_rating">Overall Customer Rating</string>
     <string name="logout">Logout</string>
     <string name="zero">0</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="no_connection">No connection</string>
+    <string name="back_online">Back online</string>
 </resources>

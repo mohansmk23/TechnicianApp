@@ -10,7 +10,6 @@
 package com.poojaelectronics.technician.view;
 
 import android.animation.Animator;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +19,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -32,6 +30,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.common.BaseActivity;
+import com.poojaelectronics.technician.common.LoadingDialog;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.databinding.ActivityLoginBinding;
 import com.poojaelectronics.technician.model.LoginResponse;
@@ -39,23 +39,19 @@ import com.poojaelectronics.technician.viewModel.LoginViewModel;
 
 import java.util.Objects;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends BaseActivity
 {
     public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X", EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
     View rootLayout;
     boolean doubleBackToExitPressedOnce = false;
     private int revealX, revealY;
     LoginViewModel loginViewModel;
-    ProgressDialog pDialog;
     Session session;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-        pDialog = new ProgressDialog( this );
-        pDialog.setTitle( "Logging in" );
-        pDialog.setMessage( "Please wait..." );
         session = new Session( this );
         ActivityLoginBinding activityLoginBinding = DataBindingUtil.setContentView( this, R.layout.activity_login );
         loginViewModel = ViewModelProviders.of( this ).get( LoginViewModel.class );
@@ -98,12 +94,11 @@ public class LoginActivity extends AppCompatActivity
             {
                 if( task.isSuccessful() )
                 {
-                    loginViewModel.getLoginModel().setToken( task.getResult().getToken() );
+                    loginViewModel.getLoginModel().setToken( Objects.requireNonNull( task.getResult() ).getToken() );
                 }
             }
         } );
     }
-
 
     protected void revealActivity( int x, int y )
     {
@@ -157,11 +152,11 @@ public class LoginActivity extends AppCompatActivity
             {
                 if( aBoolean )
                 {
-                    pDialog.show();
+                    LoadingDialog.showDialog( LoginActivity.this );
                 }
                 else
                 {
-                    pDialog.dismiss();
+                    LoadingDialog.dismiss();
                 }
             }
         } );

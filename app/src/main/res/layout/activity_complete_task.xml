@@ -12,6 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/rootLay"
+        android:animateLayoutChanges="true"
         android:background="@android:color/white">
 
         <androidx.core.widget.NestedScrollView
@@ -26,6 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_10dp"
+                    android:layout_marginBottom="50dp"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
 
@@ -129,6 +132,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="@string/complete_task" />
+        <include
+            layout="@layout/view_network_connection_status"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 

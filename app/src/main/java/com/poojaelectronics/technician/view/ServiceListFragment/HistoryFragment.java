@@ -27,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
+import com.poojaelectronics.technician.common.LoadingDialog;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.UpdateBadgeCount;
 import com.poojaelectronics.technician.databinding.ItemHistoryBinding;
@@ -85,7 +86,7 @@ public class HistoryFragment extends Fragment
                         recyclerView.setVisibility( View.VISIBLE );
                         noData.setVisibility( View.GONE );
                         setUpRecyclerView( prepareData( loginResponse.getOutput().get( 0 ).getCompletedList() ) );
-                        ( ( UpdateBadgeCount ) getActivity() ).updateHistoryBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getCompletedList().size() ) );
+                        ( ( UpdateBadgeCount ) Objects.requireNonNull( getActivity() ) ).updateHistoryBadgeCount( String.valueOf( loginResponse.getOutput().get( 0 ).getCompletedList().size() ) );
                     }
                     else
                     {
@@ -95,14 +96,14 @@ public class HistoryFragment extends Fragment
                 }
                 else
                 {
-                    historyListViewModel.historyListRepository.errorResponse.observe( getActivity(), new Observer<String>() {
+                    historyListViewModel.historyListRepository.errorResponse.observe( Objects.requireNonNull( getActivity() ), new Observer<String>()
+                    {
                         @Override
                         public void onChanged( String s )
                         {
-                            Snackbar.make( getView(), s, Snackbar.LENGTH_LONG ).show();
+                            Snackbar.make( Objects.requireNonNull( getView() ), s, Snackbar.LENGTH_LONG ).show();
                         }
                     } );
-
                 }
             }
         } );
@@ -111,6 +112,14 @@ public class HistoryFragment extends Fragment
             @Override
             public void onChanged( Boolean aBoolean )
             {
+                if( aBoolean )
+                {
+                    LoadingDialog.showDialog( getActivity() );
+                }
+                else
+                {
+                    LoadingDialog.dismiss();
+                }
             }
         } );
     }

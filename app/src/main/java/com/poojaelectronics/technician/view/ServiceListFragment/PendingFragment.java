@@ -12,7 +12,6 @@ package com.poojaelectronics.technician.view.ServiceListFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.poojaelectronics.technician.R;
-import com.poojaelectronics.technician.common.MyFirebaseMessagingService;
-import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.EventHandlers;
+import com.poojaelectronics.technician.common.LoadingDialog;
+import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.UpdateBadgeCount;
 import com.poojaelectronics.technician.databinding.ItemPendingListBinding;
 import com.poojaelectronics.technician.model.PendingListModel;
@@ -43,6 +42,7 @@ import com.poojaelectronics.technician.viewModel.PendingListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PendingFragment extends Fragment
 {
@@ -93,7 +93,7 @@ public class PendingFragment extends Fragment
                             recyclerView.setVisibility( View.VISIBLE );
                             noData.setVisibility( View.GONE );
                             setUpRecyclerView( prepareData( pendingListResponse.getOutput().get( 0 ).getBookinglist() ) );
-                            ( ( UpdateBadgeCount ) getActivity() ).updatePendingBadgeCount( String.valueOf( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() ) );
+                            ( ( UpdateBadgeCount ) Objects.requireNonNull( getActivity() ) ).updatePendingBadgeCount( String.valueOf( pendingListResponse.getOutput().get( 0 ).getBookinglist().size() ) );
                         }
                         else
                         {
@@ -109,12 +109,12 @@ public class PendingFragment extends Fragment
                 }
                 else
                 {
-                    pendingListViewModel.pendingListRepository.errorResponse.observe( getActivity(), new Observer<String>()
+                    pendingListViewModel.pendingListRepository.errorResponse.observe( Objects.requireNonNull( getActivity() ), new Observer<String>()
                     {
                         @Override
                         public void onChanged( String s )
                         {
-                            Snackbar.make( getView(), s, Snackbar.LENGTH_LONG ).show();
+                            Snackbar.make( Objects.requireNonNull( getView() ), s, Snackbar.LENGTH_LONG ).show();
                         }
                     } );
                 }
@@ -125,6 +125,14 @@ public class PendingFragment extends Fragment
             @Override
             public void onChanged( Boolean aBoolean )
             {
+                if( aBoolean )
+                {
+                    LoadingDialog.showDialog( getActivity() );
+                }
+                else
+                {
+                    LoadingDialog.dismiss();
+                }
             }
         } );
     }
