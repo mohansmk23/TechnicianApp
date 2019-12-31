@@ -72,12 +72,10 @@ public class TrackerService extends Service
         NotificationManager notificationManager = ( NotificationManager ) this.getSystemService( NOTIFICATION_SERVICE );
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O )
         {
-            CharSequence name = "new_channel";
-            String description = "my  new channel";
+            CharSequence name = "Background Service";
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel mChannel;
             mChannel = new NotificationChannel( CHANNEL_ID, name, importance );
-            mChannel.setDescription( description );
             mChannel.enableLights( true );
             mChannel.setLightColor( Color.RED );
             mChannel.enableVibration( true );

@@ -24,6 +24,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -172,7 +173,7 @@ public class PendingFragment extends Fragment
         recyclerView.setAdapter( adapter );
     }
 
-    public class PendingListAdapter extends RecyclerView.Adapter<PendingListAdapter.MyViewHolder>
+    public class PendingListAdapter extends PagedListAdapter<PendingListModel, PendingListAdapter.MyViewHolder>
     {
         private List<PendingListModel> serviceList;
 
@@ -189,6 +190,7 @@ public class PendingFragment extends Fragment
 
         private PendingListAdapter( List<PendingListModel> serviceList )
         {
+            super( PendingListModel.CALLBACK );
             this.serviceList = serviceList;
         }
 

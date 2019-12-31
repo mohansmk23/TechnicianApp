@@ -20,6 +20,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#9fa8da</item>
+        <item name="colorControlActivated">@color/themeColor1</item>
+    </style>
+
     <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/holo_red_light</item>
         <item name="rippleColor">@color/colorAccent</item>

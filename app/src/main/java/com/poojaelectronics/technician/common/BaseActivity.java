@@ -114,6 +114,7 @@ public class BaseActivity extends AppCompatActivity
         unregisterReceiver( networkReceiver );
     }
 
+
     public static void networkChange( boolean state )
     {
         ColorMatrix cm = new ColorMatrix();

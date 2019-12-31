@@ -16,25 +16,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -53,27 +62,42 @@ import com.poojaelectronics.technician.common.LoadingDialog;
 import com.poojaelectronics.technician.common.Session;
 import com.poojaelectronics.technician.common.TrackerService;
 import com.poojaelectronics.technician.databinding.ActivityStartTaskBinding;
+import com.poojaelectronics.technician.model.CompleteResponse;
 import com.poojaelectronics.technician.model.StartTaskModel;
 import com.poojaelectronics.technician.model.StartTaskResponse;
 import com.poojaelectronics.technician.viewModel.StartTaskViewModel;
+import com.shuhart.stepview.StepView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class StartTask extends BaseActivity
 {
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-    TextView startTask, tvStatus;
+    private static final int DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE = 1222;
+    TextView startTask;
     ImageView direction;
-    CardView cvPicked;
+    FrameLayout serviceDetails, completeDetails;
     RelativeLayout rootLay;
     StartTaskModel startTaskModel;
     StartTaskViewModel startTaskViewModel;
     Session session;
-    boolean isAgree = false;
+    boolean isAgree = false, visibleState = false;
     int status = 0;
     FloatingActionButton floatingActionButton;
     Animation startAnimation;
     String tittle, serviceId = "";
+    StepView stepView;
+    AppCompatTextView clear;
+    SignaturePad signaturePad;
+    boolean isSigned = false;
+    OutputStream os;
+    File filesDir;
+    File imageFile;
+    RatingBar ratingBar;
     MaterialAlertDialogBuilder builder;
     private static final int PERMISSIONS_REQUEST = 1;
     StartTaskActivityClickHandler startTaskActivityClickHandler;
@@ -91,11 +115,52 @@ public class StartTask extends BaseActivity
         activityStartTaskBinding = DataBindingUtil.setContentView( this, R.layout.activity_start_task );
         session = new Session( this );
         rootLay = findViewById( R.id.rootLay );
-        cvPicked = findViewById( R.id.picked_card );
-        tvStatus = findViewById( R.id.status );
+        stepView = findViewById( R.id.step_view );
+        stepView.getState().animationType( StepView.ANIMATION_ALL ).stepsNumber( 4 ).nextStepCircleEnabled( true ).nextTextColor( Color.GRAY ).nextStepCircleColor( Color.BLACK ).steps( new ArrayList<String>()
+        {{
+            add( "Picked" );
+            add( "Reached" );
+            add( "Started" );
+            add( "Completed" );
+        }} ).animationDuration( getResources().getInteger( android.R.integer.config_shortAnimTime ) ).commit();
         startTask = findViewById( R.id.startTask );
         direction = findViewById( R.id.direction );
+        serviceDetails = findViewById( R.id.serviceDetails );
+        completeDetails = findViewById( R.id.completeDetails );
         floatingActionButton = findViewById( R.id.fabAdminCall );
+        filesDir = getApplicationContext().getFilesDir();
+        imageFile = new File( filesDir, "customerSign" + ".jpg" );
+        clear = findViewById( R.id.btnClear );
+        signaturePad = findViewById( R.id.signPad );
+        ratingBar = findViewById( R.id.rating );
+        clear.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick( View v )
+            {
+                signaturePad.clear();
+            }
+        } );
+        signaturePad.setOnSignedListener( new SignaturePad.OnSignedListener()
+        {
+            @Override
+            public void onStartSigning()
+            {
+            }
+
+            @Override
+            public void onSigned()
+            {
+                clear.setEnabled( true );
+                isSigned = true;
+            }
+
+            @Override
+            public void onClear()
+            {
+                isSigned = false;
+            }
+        } );
         startAnimation = AnimationUtils.loadAnimation( getApplicationContext(), R.anim.blink );
         direction.setOnClickListener( new View.OnClickListener()
         {
@@ -108,6 +173,15 @@ public class StartTask extends BaseActivity
                     Intent navigationIntent = new Intent( Intent.ACTION_VIEW, navigation );
                     navigationIntent.setPackage( "com.google.android.apps.maps" );
                     startActivity( navigationIntent );
+                    /*if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays( StartTask.this ) )
+                    {
+                        Intent intent = new Intent( Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse( "package:" + getPackageName() ) );
+                        startActivityForResult( intent, DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE );
+                    }
+                    else
+                    {
+                        startService(new Intent(StartTask.this, FloatingWidgetService.class));
+                    }*/
                 }
                 else
                 {
@@ -175,6 +249,7 @@ public class StartTask extends BaseActivity
                                             @Override
                                             public void onResult( @NonNull LocationSettingsResult result )
                                             {
+                                                Log.d( "s2s", "testing Test" );
                                                 final Status status = result.getStatus();
                                                 switch( status.getStatusCode() )
                                                 {
@@ -192,16 +267,6 @@ public class StartTask extends BaseActivity
                                                 }
                                             }
                                         } );
-                                        /*Snackbar.make( rootLay, "Please enable location services to continue", Snackbar.LENGTH_SHORT ).show();
-                                        Handler handler = new Handler();
-                                        handler.postDelayed( new Runnable()
-                                        {
-                                            @Override
-                                            public void run()
-                                            {
-                                                startActivity( new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS ) );
-                                            }
-                                        }, 1000 );*/
                                     }
                                     else
                                     {
@@ -227,7 +292,62 @@ public class StartTask extends BaseActivity
                                     isAgree = false;
                                     break;
                                 case 3:
-                                    startActivity( new Intent( StartTask.this, CompleteTask.class ).putExtra( "serviceId", serviceId ) );
+                                    if( !isSigned || startTaskViewModel.completeTaskModel.getAmount() == null || startTaskViewModel.completeTaskModel.getAmount().isEmpty() )
+                                    {
+                                        if( startTaskViewModel.completeTaskModel.getAmount() == null || startTaskViewModel.completeTaskModel.getAmount().isEmpty() )
+                                        {
+                                            Snackbar.make( rootLay, "Amount is Mandatory", Snackbar.LENGTH_LONG ).show();
+                                        }
+                                        else
+                                        {
+                                            Snackbar.make( rootLay, "Customer Signature is Mandatory", Snackbar.LENGTH_LONG ).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Bitmap signatureBitmap = signaturePad.getSignatureBitmap();
+                                        try
+                                        {
+                                            os = new FileOutputStream( imageFile );
+                                            signatureBitmap.compress( Bitmap.CompressFormat.JPEG, 100, os );
+                                            os.flush();
+                                            os.close();
+                                        }
+                                        catch( Exception e )
+                                        {
+                                            Log.e( getClass().getSimpleName(), "Error writing bitmap", e );
+                                        }
+                                        startTaskViewModel.onComplete( startTaskViewModel.completeTaskModel.getAmount(), startTaskViewModel.completeTaskModel.getRemarks(), serviceId, ratingBar.getRating(), imageFile );
+                                        startTaskViewModel.completeTaskRepository.getCompleteTaskResponse().observe( StartTask.this, new Observer<CompleteResponse>()
+                                        {
+                                            @Override
+                                            public void onChanged( CompleteResponse completeResponse )
+                                            {
+                                                Snackbar.make( rootLay, completeResponse.getOutput().get( 0 ).getMessage(), Snackbar.LENGTH_LONG ).show();
+                                                if( completeResponse.getOutput().get( 0 ).getStatus().equalsIgnoreCase( "success" ) )
+                                                {
+                                                    session.setpicked( "" );
+                                                    startActivity( new Intent( StartTask.this, ServiceList.class ).setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK ) );
+                                                    finish();
+                                                }
+                                            }
+                                        } );
+                                        startTaskViewModel.completeTaskRepository.getIsLoading().observe( StartTask.this, new Observer<Boolean>()
+                                        {
+                                            @Override
+                                            public void onChanged( Boolean aBoolean )
+                                            {
+                                                if( aBoolean )
+                                                {
+                                                    LoadingDialog.showDialog( StartTask.this );
+                                                }
+                                                else
+                                                {
+                                                    LoadingDialog.dismiss();
+                                                }
+                                            }
+                                        } );
+                                    }
                                     isAgree = false;
                                     break;
                             }
@@ -251,9 +371,45 @@ public class StartTask extends BaseActivity
         } );
     }
 
+    /*@Override
+    public void onUserLeaveHint()
+    {
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O )
+        {
+            PictureInPictureParams params = new PictureInPictureParams.Builder().build();
+            enterPictureInPictureMode( params );
+        }
+    }*/
+
     private void startTrackerService()
     {
         ContextCompat.startForegroundService( this, new Intent( StartTask.this, TrackerService.class ) );
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged( boolean isInPictureInPictureMode, Configuration newConfig )
+    {
+        if( isInPictureInPictureMode )
+        {
+            Objects.requireNonNull( getSupportActionBar() ).hide();
+            visibleState = serviceDetails.getVisibility() == View.VISIBLE;
+            floatingActionButton.setVisibility( View.GONE );
+            serviceDetails.setVisibility( View.GONE );
+            completeDetails.setVisibility( View.GONE );
+        }
+        else
+        {
+            Objects.requireNonNull( getSupportActionBar() ).show();
+            floatingActionButton.setVisibility( View.GONE );
+            if( visibleState )
+            {
+                serviceDetails.setVisibility( View.VISIBLE );
+            }
+            else
+            {
+                completeDetails.setVisibility( View.VISIBLE );
+            }
+        }
     }
 
     private void stopTrackerService()
@@ -340,35 +496,27 @@ public class StartTask extends BaseActivity
                     if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
                     {
                         startTask.setText( R.string.pickup_task );
-                        cvPicked.setVisibility( View.GONE );
                         tittle = getString( R.string.pickup_tittle );
                         status = 0;
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
                     {
                         startTask.setText( R.string.reached );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.job_picked_up );
-                        cvPicked.startAnimation( startAnimation );
                         status = 1;
                         tittle = getString( R.string.reached_tittle );
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
                     {
                         startTask.setText( R.string.start_task );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.location_reached );
                         tittle = getString( R.string.start_tittle );
                         status = 2;
-                        cvPicked.startAnimation( startAnimation );
                         stopTrackerService();
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
                     {
+                        serviceDetails.setVisibility( View.GONE );
+                        completeDetails.setVisibility( View.VISIBLE );
                         startTask.setText( R.string.complete_task );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.task_started );
-                        cvPicked.startAnimation( startAnimation );
                         status = 3;
                         tittle = getString( R.string.complete_tittle );
                     }
@@ -377,7 +525,9 @@ public class StartTask extends BaseActivity
                         getSupportActionBar().setDisplayHomeAsUpEnabled( false );
                         session.setpicked( serviceId );
                     }
+                    stepView.go( status, true );
                     activityStartTaskBinding.setCustomerDetails( startTaskModel );
+                    activityStartTaskBinding.setViewModel( startTaskViewModel.completeTaskModel );
                     activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
                 }
                 else
@@ -447,16 +597,12 @@ public class StartTask extends BaseActivity
                     if( startTaskModel.getStatus().equalsIgnoreCase( "Assigned" ) )
                     {
                         startTask.setText( R.string.pickup_task );
-                        cvPicked.setVisibility( View.GONE );
                         tittle = getString( R.string.pickup_tittle );
                         status = 0;
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Picked" ) )
                     {
                         startTask.setText( R.string.reached );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.job_picked_up );
-                        cvPicked.startAnimation( startAnimation );
                         status = 1;
                         LocationManager lm = ( LocationManager ) getSystemService( LOCATION_SERVICE );
                         if( lm != null && !lm.isProviderEnabled( LocationManager.GPS_PROVIDER ) )
@@ -477,19 +623,15 @@ public class StartTask extends BaseActivity
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Reached" ) )
                     {
                         startTask.setText( R.string.start_task );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.location_reached );
                         tittle = getString( R.string.start_tittle );
                         status = 2;
                         stopTrackerService();
-                        cvPicked.startAnimation( startAnimation );
                     }
                     else if( startTaskModel.getStatus().equalsIgnoreCase( "Start" ) )
                     {
+                        serviceDetails.setVisibility( View.GONE );
+                        completeDetails.setVisibility( View.VISIBLE );
                         startTask.setText( R.string.complete_task );
-                        cvPicked.setVisibility( View.VISIBLE );
-                        tvStatus.setText( R.string.task_started );
-                        cvPicked.startAnimation( startAnimation );
                         status = 3;
                         tittle = getString( R.string.complete_tittle );
                     }
@@ -498,7 +640,9 @@ public class StartTask extends BaseActivity
                         getSupportActionBar().setDisplayHomeAsUpEnabled( false );
                         session.setpicked( serviceId );
                     }
+                    stepView.go( status, true );
                     activityStartTaskBinding.setCustomerDetails( startTaskModel );
+                    activityStartTaskBinding.setViewModel( startTaskViewModel.completeTaskModel );
                     activityStartTaskBinding.setOnClickHandler( startTaskActivityClickHandler );
                 }
                 else
@@ -537,6 +681,28 @@ public class StartTask extends BaseActivity
         startActivity( new Intent( this, ServiceList.class ) );
         finish();
         return true;
+    }
+
+    @Override
+    protected void onActivityResult( int requestCode, int resultCode, @Nullable Intent data )
+    {
+        if( requestCode == REQUEST_CHECK_SETTINGS )
+        {
+            startTrackerService();
+            startTaskViewModel.picked( serviceId, "picked" );
+        }
+        else if( requestCode == DRAW_OVER_OTHER_APP_PERMISSION_REQUEST_CODE )
+        {
+            if( resultCode == RESULT_OK )
+            {
+//                startService(new Intent(StartTask.this, FloatingWidgetService.class));
+            }
+            else
+            {
+                Toast.makeText( this, "Draw over other app permission not available. App won\'t work without permission. Please try again.", Toast.LENGTH_SHORT ).show();
+            }
+        }
+        super.onActivityResult( requestCode, resultCode, data );
     }
 
     @Override

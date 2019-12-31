@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e0e0e0"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/noData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_data_available"
+        android:text="@string/no_history_available"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_xx_large"
         android:textStyle="bold"

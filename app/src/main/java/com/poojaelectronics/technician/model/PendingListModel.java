@@ -1,11 +1,51 @@
 package com.poojaelectronics.technician.model;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class PendingListModel
+import androidx.recyclerview.widget.DiffUtil;
+
+public class PendingListModel implements Parcelable
 {
-    private String service_id, service_type, brand, status, date, phone_number, time, cancel_remarks, re_schedule, re_date, re_time, address, technician, created_at,customer_name,image_url;
+    private String service_id, service_type, brand, status, date, phone_number, time, cancel_remarks, re_schedule, re_date, re_time, address, technician, created_at, customer_name, image_url;
+
+    public PendingListModel()
+    {}
+
+    public PendingListModel( Parcel in )
+    {
+        service_id = in.readString();
+        service_type = in.readString();
+        brand = in.readString();
+        status = in.readString();
+        date = in.readString();
+        phone_number = in.readString();
+        time = in.readString();
+        cancel_remarks = in.readString();
+        re_schedule = in.readString();
+        re_date = in.readString();
+        re_time = in.readString();
+        address = in.readString();
+        technician = in.readString();
+        created_at = in.readString();
+        customer_name = in.readString();
+        image_url = in.readString();
+    }
+
+    public static final Parcelable.Creator<PendingListModel> CREATOR = new Parcelable.Creator<PendingListModel>()
+    {
+        @Override
+        public PendingListModel createFromParcel( Parcel in )
+        {
+            return new PendingListModel( in );
+        }
+
+        @Override
+        public PendingListModel[] newArray( int size )
+        {
+            return new PendingListModel[ size ];
+        }
+    };
 
     public String getServiceId()
     {
@@ -166,4 +206,46 @@ public class PendingListModel
     {
         this.created_at = created_at;
     }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel( Parcel dest, int flags )
+    {
+        dest.writeString( service_id );
+        dest.writeString( service_type );
+        dest.writeString( brand );
+        dest.writeString( status );
+        dest.writeString( date );
+        dest.writeString( phone_number );
+        dest.writeString( time );
+        dest.writeString( cancel_remarks );
+        dest.writeString( re_schedule );
+        dest.writeString( re_date );
+        dest.writeString( re_time );
+        dest.writeString( address );
+        dest.writeString( technician );
+        dest.writeString( created_at );
+        dest.writeString( customer_name );
+        dest.writeString( image_url );
+    }
+
+    public static final DiffUtil.ItemCallback<PendingListModel> CALLBACK = new DiffUtil.ItemCallback<PendingListModel>()
+    {
+        @Override
+        public boolean areItemsTheSame( PendingListModel oldItem, PendingListModel newItem )
+        {
+            return oldItem.service_id.equals( newItem.service_id );
+        }
+
+        @Override
+        public boolean areContentsTheSame( PendingListModel oldItem, PendingListModel newItem )
+        {
+            return true;
+        }
+    };
 }

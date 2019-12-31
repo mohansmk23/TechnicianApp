@@ -34,13 +34,11 @@ public class NotificationUtils
         NotificationManager notificationManager = ( NotificationManager ) mContext.getSystemService( Context.NOTIFICATION_SERVICE );
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O )
         {
-            CharSequence name = "new_channel";
-            String description = "my  new channel";
+            CharSequence name = "Technician Details";
             int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel mChannel ;
             String id = "my_channel_01";
             mChannel = new NotificationChannel( id, name, importance );
-            mChannel.setDescription( description );
             mChannel.enableLights( true );
             mChannel.setLightColor( Color.RED );
             mChannel.enableVibration( true );

@@ -6,7 +6,7 @@ import androidx.databinding.library.baseAdapters.BR;
 
 public class CompleteTaskModel extends BaseObservable
 {
-    private String amount, remarks;
+    private String amount, remarks="";
     private boolean signed;
 
     @Bindable
